@@ -57,8 +57,10 @@ source=(
   0020-ata-before-graphics.patch
   0021-sched-wait-lifo-accept.patch
   0022-tcp-write-buffer.patch
+  0023-amdgpu-max-power-limit-115pct.patch
 )
 b2sums=(
+  'SKIP'
   'SKIP'
   'SKIP'
   'SKIP'

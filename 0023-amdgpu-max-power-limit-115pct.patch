@@ -1,0 +1,15 @@
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+index 21bd635bcdfc..1e07ca4a866a 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+@@ -904,6 +904,10 @@ static int smu_late_init(struct amdgpu_ip_block *ip_block)
+
+ 	smu_restore_dpm_user_profile(smu);
+
++	/* Increase maximum power limit by 15% */
++	smu->max_power_limit *= 115;
++	smu->max_power_limit /= 100;
++
+ 	return 0;
+ }
+

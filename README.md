@@ -32,6 +32,7 @@ My personal Linux kernel, tuned for gaming on modern hardware. Built with the la
   - `sched/wait`: do accept() in LIFO order for cache efficiency
   - `boot:` parallelize ATA and GPU initialization
   - `net:` increase TCP write buffer limit from 4MB to 16MB
+  - `drm/amdgpu:` raise SMU maximum power limit by 15% ([capped by the driver](https://github.com/torvalds/linux/commit/1958946858a62b6b5392ed075aa219d199bcae39) since v6.7)
 
 ## Build & Install
 
