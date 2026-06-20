@@ -33,6 +33,7 @@ My personal Linux kernel, tuned for gaming on modern hardware. Built with the la
   - `boot:` parallelize ATA and GPU initialization
   - `net:` increase TCP write buffer limit from 4MB to 16MB
   - `drm/amdgpu:` raise SMU maximum power limit by 15% ([capped by the driver](https://github.com/torvalds/linux/commit/1958946858a62b6b5392ed075aa219d199bcae39) since v6.7). To be able to set a higher power limit, set `amdgpu.ignore_min_pcap=1` in the kernel boot args.
+  - `wifi: ath12k:` disable PCIe ASPM L1 states on shutdown, fixes Qualcomm FastConnect 7800 (WCN7850) not enumerated after warm reboot (requires a full power drain once to recover from an already-stuck state)
 
 ## Build & Install
 
