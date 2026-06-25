@@ -1,7 +1,7 @@
 # Maintainer: Mauri de Souza Meneguzzo <mauri870@gmail.com>
 
 pkgbase=linux-mauri870
-pkgver=7.1.0
+pkgver=7.2.0
 pkgrel=1
 pkgdesc="My custom Linux with added patches and optimizations"
 url="https://www.kernel.org"
@@ -37,14 +37,13 @@ _url="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git"
 source=(
   config
   0001-hdmi_frl.patch
-  0002-bore.patch
+  # 0002-bore.patch
   0003-clang-polly.patch
   0004-mm_lazy_rss_stat.patch
   0005-cflags-O3.patch
   0006-disable-split-lock.patch
   0007-tcp-bbr3.patch
   0009-tick-nohz-fix-wrong-nohz-idle-cpu-state.patch
-  0010-posted-msi-enable-by-default.patch
   0011-sched-better-idle-balance.patch
   0012-mm-max-map-count-INT-MAX.patch
   0013-net-sock-SK_MEM_PACKETS-1024.patch
@@ -63,8 +62,7 @@ b2sums=(
   'SKIP'
   'SKIP'
   'SKIP'
-  'SKIP'
-  'SKIP'
+  # 'SKIP'
   'SKIP'
   'SKIP'
   'SKIP'
@@ -85,7 +83,7 @@ b2sums=(
   'SKIP'
 )
 
-export LINUX_COMMIT=8cd9520d35a6c38db6567e97dd93b1f11f185dc6
+export LINUX_COMMIT=8c04c1292dca29a57ea82c6a44348be49749fc22
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"

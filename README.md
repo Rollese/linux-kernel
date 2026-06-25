@@ -2,7 +2,7 @@
 
 My personal Linux kernel, tuned for gaming on modern hardware. Built with the latest LLVM toolchain targeting native compilation, configured with a 1000Hz tick rate, NTSYNC for low-latency synchronization, Transparent Hugepages, full preemption, sched_ext, and NOHZ_FULL tickless support. Patched with BORE scheduling, HDMI 2.1 48Gbps with ALLM(auto low-latency) and VRR(FreeSync) for AMD GPUs, Google's BBRv3 TCP congestion control, increased power limit for AMD GPU's and various desktop-focused tweaks.
 
-- Linux v7.1
+- Linux v7.2
 - Config
   - `PREEMPT_FULL`
   - `sched_ext`
@@ -32,8 +32,7 @@ My personal Linux kernel, tuned for gaming on modern hardware. Built with the la
   - `sched/wait`: do accept() in LIFO order for cache efficiency
   - `boot:` parallelize ATA and GPU initialization
   - `net:` increase TCP write buffer limit from 4MB to 16MB
-  - `drm/amdgpu:` raise SMU maximum power limit by 15% ([capped by the driver](https://github.com/torvalds/linux/commit/1958946858a62b6b5392ed075aa219d199bcae39) since v6.7). To be able to set a higher power limit, set `amdgpu.ignore_min_pcap=1` in the kernel boot args.
-  - `wifi: ath12k:` disable PCIe ASPM L1 states on shutdown, fixes Qualcomm FastConnect 7800 (WCN7850) not enumerated after warm reboot (requires a full power drain once to recover from an already-stuck state)
+  - `drm/amdgpu:` raise SMU maximum power limit by 15% ([capped by the driver](https://github.com/torvalds/linux/commit/1958946858a62b6b5392ed075aa219d199bcae39) since v6.7).
 
 ## Build & Install
 
@@ -50,6 +49,14 @@ makepkg -si -f
 Install `dmemcg-booster` and `plasma-foreground-booster-dmemcg` to make use of the cgroup vram patch.
 
 ###  Kernel Boot Args
+
+#### amdgpu
+
+`amdgpu.ppfeaturemask=0xffffffff amdgpu.ignore_min_pcap=1` to be able to set custom power limit
+
+`amdgpu.dcfeaturemask=0x402` to enable HDMI FRL
+
+#### nohz
 
 For dual-CCD asymmetric CPUs such as 9950X3D/9900X3D, configure the [kernel boot args](https://wiki.archlinux.org/title/Kernel_parameters) so X3D cores run tickless and offload RCU callbacks and IRQs to CCD1:
 

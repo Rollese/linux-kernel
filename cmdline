@@ -1,4 +1,11 @@
-# cpu 0 can't be tickless
+# nohz, cpu 0 can't be tickless
 nohz_full=1-7,16-23
 rcu_nocbs=1-7,16-23
 irqaffinity=8-15,24-31
+
+# amdgpu
+# custom power limit
+amdgpu.ppfeaturemask=0xffffffff
+amdgpu.ignore_min_pcap=1
+# hdmi frl
+amdgpu.dcfeaturemask=0x402
