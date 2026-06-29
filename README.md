@@ -1,6 +1,6 @@
 # linux-mauri870
 
-My personal Linux kernel, tuned for gaming on modern hardware. Built with the latest LLVM toolchain targeting native compilation, configured with a 1000Hz tick rate, NTSYNC for low-latency synchronization, Transparent Hugepages, full preemption, sched_ext, and NOHZ_FULL tickless support. Patched with BORE scheduling, HDMI 2.1 48Gbps with ALLM(auto low-latency) and VRR(FreeSync) for AMD GPUs, Google's BBRv3 TCP congestion control, increased power limit for AMD GPU's and various desktop-focused tweaks.
+My personal Linux kernel, tuned for gaming on modern hardware. Built with the latest LLVM toolchain targeting native compilation, configured with a 1000Hz tick rate, NTSYNC for low-latency synchronization, Transparent Hugepages, full preemption, sched_ext, and NOHZ_FULL tickless support. Patched with BORE scheduling, HDMI 2.1 48Gbps with ALLM(auto low-latency) and VRR(FreeSync) for AMD GPUs, Google's BBRv3 TCP congestion control, increased power limit for AMD GPUs and various desktop-focused tweaks.
 
 - Linux v7.2
 - Config
@@ -13,7 +13,7 @@ My personal Linux kernel, tuned for gaming on modern hardware. Built with the la
   - LLVM/Clang + -O3 + ThinLTO + `-march=native`
 - Patches
   - `drm:` [HDMI FRL (HDMI 2.1(48 Gbps), VRR(FreeSync), ALLM (Auto Low Latency Mode), 10-bit 4:4:4 support for AMD GPUs)](https://github.com/mkopec/linux/tree/hdmi_frl)
-  - `sched:` [BORE (Burst-Oriented Response Enhancer) scheduler](https://github.com/firelzrd/bore-scheduler)
+  - `sched:` [BORE (Burst-Oriented Response Enhancer) scheduler](https://github.com/firelzrd/bore-scheduler) *(disabled; pending port to 7.2)*
   - `compiler:` [LLVM Polly (polyhedral loop optimizer for better cache locality and parallelism)](https://github.com/CachyOS/kernel-patches/blob/master/7.0/misc/0001-clang-polly.patch)
   - `mm:` [Lazy RSS stat percpu counters (faster fork/exec for single-threaded tasks)](https://lore.kernel.org/lkml/20251127233635.4170047-2-krisman@suse.de/)
   - `compiler:` CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE uses -O3
@@ -21,13 +21,13 @@ My personal Linux kernel, tuned for gaming on modern hardware. Built with the la
   - `net:` [Google's BBR3 for TCP congestion control](https://github.com/google/bbr/tree/v3)
   - `time:` [tick/nohz: Fix wrong NOHZ idle CPU state](https://lore.kernel.org/lkml/20260203-fix-nohz-idle-v1-1-ad05a5872080@os.amperecomputing.com/)
   - `drm/ttm:` [VRAM pressure: keep protected workloads in VRAM when GPU memory runs low](https://pixelcluster.github.io/VRAM-Mgmt-fixed/)
-  - `iommu:` enable posted MSI by default (lower PCIe interrupt latency for GPU)
   - `sched:` more aggressive idle load balancing (halved avg_idle threshold)
   - `mm:` raise default max_map_count to INT_MAX (prevents game crashes from VMA exhaustion)
   - `net:` increase default socket buffer size by 4x
   - `sched:` rate-limit `sched_yield` to once per jiffy (fixes Proton/Wine games that spam yield)
   - `mm:` place shared libraries below PIE binary in address space (better code/library cache locality)
   - `mm:` use `mmput_async` on process exit (avoids blocking mm teardown under memory pressure)
+  - `locking/rwsem:` spin faster on rwsem owner (reduces contention on mixed read/write workloads)
   - `time:` reduce default `timer_slack_ns` from 50µs to 50ns (tighter hrtimer coalescing window for nanosleep/select/futex; inherited by all processes from PID 1)
   - `sched/wait`: do accept() in LIFO order for cache efficiency
   - `boot:` parallelize ATA and GPU initialization
