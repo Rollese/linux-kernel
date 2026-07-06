@@ -3,7 +3,7 @@
 pkgbase=linux-mauri870
 pkgver=7.2.0
 pkgrel=1
-pkgdesc="My custom Linux with added patches and optimizations"
+pkgdesc="Mauri870's custom Linux kernel with added patches and optimizations"
 url="https://www.kernel.org"
 arch=(x86_64)
 license=(GPL-2.0-only)
@@ -83,7 +83,7 @@ b2sums=(
   'SKIP'
 )
 
-export LINUX_COMMIT=dc59e4fea9d83f03bad6bddf3fa2e52491777482
+export LINUX_COMMIT=8cdeaa50eae8dad34885515f62559ee83e7e8dda
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
