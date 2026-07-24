@@ -23,7 +23,7 @@ check_deps() {
     done
     if [ ${#missing[@]} -gt 0 ]; then
         echo "Missing required tools: ${missing[*]}" >&2
-        echo "Install: sudo pacman -S edid-decode drm_info python" >&2
+        echo "Install: sudo pacman -S v4l-utils drm-info python" >&2
         exit 1
     fi
 }
