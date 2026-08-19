@@ -37,7 +37,7 @@ _url="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git"
 source=(
   config
   0001-hdmi_frl.patch
-  0002-bore.patch
+  # 0002-bore.patch
   0003-clang-polly.patch
   0004-mm_lazy_rss_stat.patch
   0005-cflags-O3.patch
@@ -59,7 +59,7 @@ source=(
   0023-amdgpu-max-power-limit-115pct.patch
 )
 b2sums=(
-  'SKIP'
+  # 'SKIP'
   'SKIP'
   'SKIP'
   'SKIP'
@@ -83,7 +83,7 @@ b2sums=(
   'SKIP'
 )
 
-export LINUX_COMMIT=8d3ae59288f1e7d58d76558a6ee96d533bc5019f
+export LINUX_COMMIT=bd5f485f3f026225b86573e559af0b7254ef4184
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
