@@ -738,6 +738,15 @@ diff --git a/mm/rmap.c b/mm/rmap.c
  			set_pte_at(mm, address, pvmw.pte, pteval);
  		} else if (likely(pte_present(pteval)) && pte_unused(pteval) &&
  			   !userfaultfd_armed(vma)) {
+@@ -2360,7 +2360,7 @@
+ 			 * migration) will not expect userfaults on already
+ 			 * copied pages.
+ 			 */
+-			dec_mm_counter(mm, mm_counter(folio));
++			dec_mm_counter_other(mm, mm_counter(folio));
+ 		} else if (folio_test_anon(folio)) {
+ 			if (!ttu_anon_folio(vma, folio, page, address,
+ 					    pvmw.pte, pteval, nr_pages)) {
 @@ -2386,7 +2386,7 @@
  			 *
  			 * See Documentation/mm/mmu_notifier.rst
@@ -800,3 +809,15 @@ diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
  
  	set_pte_at(dst_mm, dst_addr, dst_pte, _dst_pte);
  
+diff --git a/arch/s390/mm/gmap_helpers.c b/arch/s390/mm/gmap_helpers.c
+--- a/arch/s390/mm/gmap_helpers.c
++++ b/arch/s390/mm/gmap_helpers.c
+@@ -111,7 +111,7 @@
+ 		return;
+ 	sl = softleaf_from_pte(*ptep);
+ 	if (pte_swap(*ptep) && softleaf_is_swap(sl)) {
+-		dec_mm_counter(mm, MM_SWAPENTS);
++		dec_mm_counter_other(mm, MM_SWAPENTS);
+ 		swap_put_entries_direct(sl, 1);
+ 		pte_clear(mm, vmaddr, ptep);
+ 	}
