@@ -36,7 +36,7 @@ _srcname=linux-torvalds
 _url="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git"
 source=(
   config
-  0001-hdmi_frl.patch
+  # 0001-hdmi_frl.patch
   # 0002-bore.patch
   0003-clang-polly.patch
   0004-mm_lazy_rss_stat.patch
@@ -50,7 +50,6 @@ source=(
   0014-sched-ratelimit-yield.patch
   0015-mm-libs-grow-down.patch
   0016-mm-mmput-async.patch
-  0017-cgroup-vram.patch
   0018-slack.patch
   0019-rwsem-spin-faster.patch
   0020-ata-before-graphics.patch
@@ -60,8 +59,7 @@ source=(
 )
 b2sums=(
   # 'SKIP'
-  'SKIP'
-  'SKIP'
+  # 'SKIP'
   'SKIP'
   'SKIP'
   'SKIP'
@@ -83,7 +81,7 @@ b2sums=(
   'SKIP'
 )
 
-export LINUX_COMMIT=818bebeb63dd6bf5f4e07e145f6cdbace520a34c
+export LINUX_COMMIT=388b607d107c07aaade04c7f22f344cab6bdccd3
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
