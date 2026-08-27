@@ -36,7 +36,7 @@ _srcname=linux-torvalds
 _url="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git"
 source=(
   config
-  # 0001-hdmi_frl.patch
+  0001-hdmi_frl.patch
   # 0002-bore.patch
   0003-clang-polly.patch
   0004-mm_lazy_rss_stat.patch
@@ -58,7 +58,7 @@ source=(
   0023-amdgpu-max-power-limit-115pct.patch
 )
 b2sums=(
-  # 'SKIP'
+  'SKIP'
   # 'SKIP'
   'SKIP'
   'SKIP'
