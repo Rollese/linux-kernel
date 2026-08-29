@@ -1,5 +1,15 @@
 # Maintainer: Mauri de Souza Meneguzzo <mauri870@gmail.com>
 
+### Local build tuning (Roland). Override per-build from the environment, e.g.
+###   _localmodcfg=no _incremental=no makepkg -si -f
+# Trim the module set (~6200 modules) down to hardware actually in use.
+# Requires a modprobed-db database; see README.local.md.
+: "${_localmodcfg:=yes}"
+: "${_localmodcfg_path:=$HOME/.config/modprobed.db}"
+# Keep untracked build artifacts between runs so kbuild rebuilds incrementally
+# instead of recompiling the whole tree every time.
+: "${_incremental:=yes}"
+
 pkgbase=linux-mauri870
 pkgver=7.2.0
 pkgrel=1
@@ -99,7 +109,26 @@ prepare() {
 
   echo "Enforcing commit $LINUX_COMMIT..."
   git fetch origin
-  git clean -fdx
+  if [[ $_incremental = yes ]]; then
+    # Preserve untracked build output (*.o, *.cmd, .config, ThinLTO cache) so
+    # the next build is incremental. git reset --hard below reverts the patched
+    # tracked sources; the only untracked *sources* are the files our patches
+    # create, and those must go or git apply fails with "already exists".
+    echo "Incremental build: keeping build artifacts, dropping patch-created sources..."
+    local p newfile patches=()
+    for p in "${source[@]}"; do
+      p="${p%%::*}"
+      p="${p##*/}"
+      [[ $p = 0[0-9]*.patch && -r ../$p ]] && patches+=("../$p")
+    done
+    if (( ${#patches[@]} )); then
+      while read -r newfile; do
+        [[ -n $newfile ]] && rm -f "$newfile"
+      done < <(awk '/^diff --git/ { f = substr($3, 3) } /^new file mode/ { print f }' "${patches[@]}")
+    fi
+  else
+    git clean -fdx
+  fi
   git checkout -f "$LINUX_COMMIT"
   git reset --hard "$LINUX_COMMIT"
 
@@ -121,6 +150,16 @@ prepare() {
   cp ../config .config
   make LLVM=1 olddefconfig
   diff -u ../config .config || :
+
+  if [[ $_localmodcfg = yes ]]; then
+    if [[ ! -e $_localmodcfg_path ]]; then
+      error "_localmodcfg=yes but no module database at $_localmodcfg_path"
+      plainerr "Run 'modprobed-db store' (see README.local.md), or build with _localmodcfg=no"
+      return 1
+    fi
+    echo "Trimming modules with $_localmodcfg_path..."
+    yes "" | make LLVM=1 LSMOD="$_localmodcfg_path" localmodconfig
+  fi
 
   make LOCALVERSION='' -s kernelrelease > version
   echo "Prepared $pkgbase version $(<version)"
