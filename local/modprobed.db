@@ -26,6 +26,10 @@ gpio_amdpt
 gpio_generic
 gpu_sched
 hid_generic
+hid_logitech
+hid_logitech_dj
+hid_logitech_hidpp
+hid_microsoft
 hub
 i2c_algo_bit
 i2c_dev
@@ -114,6 +118,7 @@ wmi
 wmi_bmof
 xfs
 xhci_hcd
+xpad
 x_tables
 xt_addrtype
 xt_conntrack
