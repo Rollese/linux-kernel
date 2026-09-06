@@ -39,7 +39,7 @@ source=(
   0001-hdmi_frl.patch
   # 0002-bore.patch
   0003-clang-polly.patch
-  0004-mm_lazy_rss_stat.patch
+  # 0004-mm_lazy_rss_stat.patch
   0005-cflags-O3.patch
   0006-disable-split-lock.patch
   0007-tcp-bbr3.patch
@@ -60,7 +60,7 @@ source=(
 b2sums=(
   'SKIP'
   # 'SKIP'
-  'SKIP'
+  # 'SKIP'
   'SKIP'
   'SKIP'
   'SKIP'
@@ -81,7 +81,7 @@ b2sums=(
   'SKIP'
 )
 
-export LINUX_COMMIT=cee9395acd8043be0644b25c34bfa86623f2b935
+export LINUX_COMMIT=df2908090cda368b01ff43709f51890076c56157
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
