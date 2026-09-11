@@ -12,7 +12,7 @@ My personal Linux kernel, tuned for gaming on modern hardware. Built with the la
   - 1000 Hz tick rate
   - LLVM/Clang + -O3 + ThinLTO + `-march=native`
 - Patches
-  - `drm:` [HDMI FRL (HDMI 2.1(48 Gbps), VRR(FreeSync), ALLM (Auto Low Latency Mode), 10-bit 4:4:4 support for AMD GPUs)](https://github.com/mkopec/linux/tree/hdmi_frl)
+  - `drm:` [HDMI FRL (HDMI 2.1(48 Gbps), VRR(FreeSync), ALLM (Auto Low Latency Mode), 10-bit 4:4:4 support for AMD GPUs)](https://lore.kernel.org/dri-devel/20260910213040.826425-1-alexander.deucher@amd.com/)
   - `sched:` [BORE (Burst-Oriented Response Enhancer) scheduler](https://github.com/firelzrd/bore-scheduler)
   - `compiler:` [LLVM Polly (polyhedral loop optimizer for better cache locality and parallelism)](https://github.com/CachyOS/kernel-patches/blob/master/7.0/misc/0001-clang-polly.patch)
   - `mm:` [Lazy RSS stat percpu counters (faster fork/exec for single-threaded tasks)](https://lore.kernel.org/lkml/20251127233635.4170047-2-krisman@suse.de/)
