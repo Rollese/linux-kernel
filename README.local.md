@@ -53,8 +53,9 @@ CachyOS kernel remains installed as a fallback boot entry.
 Upstream `prepare()` ran `git clean -fdx`, which deletes every `.o`, `.cmd` and
 ThinLTO cache file, forcing a from-scratch compile on every build. With
 `_incremental=yes` that is replaced by: keep all untracked build output, and
-delete only the 7 source files the patch set creates (derived automatically from
-`new file mode` lines, so it stays correct if patches are added or removed):
+delete only the source files the patch set creates (derived automatically from
+`new file mode` and `rename to` lines, so it stays correct if patches are added
+or removed). With the current patch set that is ~60 files, e.g.:
 
 ```
 drivers/gpu/drm/amd/display/dc/hpo/dcn30/dcn30_hpo_hdmi_link_encoder.{c,h}

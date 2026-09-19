@@ -1,0 +1,24 @@
+From: Roland <roland@dayzrp.com>
+Subject: [PATCH] drm/amd/display: prefer RGB over YCbCr444 for automatic color format
+
+Commit 0b0ff65d3ca1 ("drm/amd/display: Refactor stream validation")
+replaced the recursive chroma fallback with a fixed priority list and,
+as a side effect, changed the default for DRM_CONNECTOR_COLOR_FORMAT_AUTO
+on native HDMI sinks from RGB to YCbCr 4:4:4. Both encodings need the
+same link bandwidth, but YCbCr over HDMI is limited range, so at 8 bpc
+a PC desktop loses precision for no gain. Restore the pre-refactor
+preference: try RGB first, fall back to YCbCr 4:4:4 / 4:2:2 / 4:2:0.
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_connector.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_connector.c
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_connector.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_connector.c
+@@ -2258,8 +2258,8 @@ amdgpu_dm_create_validate_stream_for_sink(struct drm_connector *connector,
+ 	 * below gate which of these entries are actually attempted.
+ 	 */
+ 	static const enum dc_pixel_encoding encoding_order[] = {
+-		PIXEL_ENCODING_YCBCR444,
+ 		PIXEL_ENCODING_RGB,
++		PIXEL_ENCODING_YCBCR444,
+ 		PIXEL_ENCODING_YCBCR422,
+ 		PIXEL_ENCODING_YCBCR420,
+ 	};

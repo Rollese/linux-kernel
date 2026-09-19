@@ -69,11 +69,13 @@ source=(
   0021-sched-wait-lifo-accept.patch
   0022-tcp-write-buffer.patch
   0023-amdgpu-max-power-limit-115pct.patch
+  0024-amdgpu-dm-prefer-rgb-over-ycbcr444.patch
 )
 b2sums=(
   'SKIP'
   # 'SKIP'
   # 'SKIP'
+  'SKIP'
   'SKIP'
   'SKIP'
   'SKIP'
@@ -114,7 +116,8 @@ prepare() {
     # Preserve untracked build output (*.o, *.cmd, .config, ThinLTO cache) so
     # the next build is incremental. git reset --hard below reverts the patched
     # tracked sources; the only untracked *sources* are the files our patches
-    # create, and those must go or git apply fails with "already exists".
+    # create (new files, and rename/copy targets), and those must go or
+    # git apply fails with "already exists".
     echo "Incremental build: keeping build artifacts, dropping patch-created sources..."
     local p newfile patches=()
     for p in "${source[@]}"; do
@@ -125,7 +128,9 @@ prepare() {
     if (( ${#patches[@]} )); then
       while read -r newfile; do
         [[ -n $newfile ]] && rm -f "$newfile"
-      done < <(awk '/^diff --git/ { f = substr($3, 3) } /^new file mode/ { print f }' "${patches[@]}")
+      done < <(awk '/^diff --git/ { f = substr($3, 3) }
+                    /^new file mode/ { print f }
+                    /^(rename|copy) to / { print $3 }' "${patches[@]}")
     fi
   else
     git clean -fdx
