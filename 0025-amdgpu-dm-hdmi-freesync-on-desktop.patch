@@ -1,0 +1,108 @@
+From: Roland <roland@dayzrp.com>
+Subject: [PATCH] drm/amd/display: keep HDMI VRR signalling active on the desktop
+
+With the reworked HDMI 2.1 VRR support the VTEM carries VRR_EN=0 (and a
+zero-length data set) whenever the compositor does not have VRR enabled,
+and the HF-VSIF ALLM_Mode follows it. An LG C2 (OLED42C2) on a 4K@120
+FRL link periodically blanks for about a second in that state, with no
+retrain, hotplug or error logged by the driver; the picture is stable as
+soon as VRR_EN=1 is sent. The previous revision of this series avoided
+this by setting stream->freesync_on_desktop for HDMI sinks and keeping
+HDMI VRR signalling up while the refresh rate is actually fixed, the
+same way FreeSync-over-HDMI handles it in the AMD VSIF path.
+
+Restore that behaviour:
+ - set freesync_on_desktop for HDMI streams with VRR support;
+ - in the VTEM builder, when freesync_on_desktop is set, signal VRR_EN=1
+   whenever VRR is supported (INACTIVE included) instead of only when
+   the compositor has it active, and keep the full data set;
+ - derive ALLM_Mode from the same condition so the sink does not toggle
+   its low-latency picture mode with every compositor VRR transition.
+
+diff -ruN a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_freesync.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_freesync.c
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_freesync.c	2026-09-19 13:38:37.895765475 +0200
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_freesync.c	2026-09-19 13:38:37.907607597 +0200
+@@ -264,11 +264,20 @@
+ 	    new_stream->signal == SIGNAL_TYPE_HDMI_FRL) {
+ 		struct dc_info_packet vsp_infopacket = {0};
+ 		bool sink_allm = aconn && aconn->base.display_info.hdmi.allm;
+-		bool allm = sink_allm &&
+-			(vrr_params.state == VRR_STATE_ACTIVE_VARIABLE ||
+-			 vrr_params.state == VRR_STATE_ACTIVE_FIXED);
++		bool vrr_signalled;
++		bool allm;
+ 		bool allm_changed;
+ 
++		/* Must match the VRR_EN decision in build_vtem_infopacket_data() */
++		if (new_stream->freesync_on_desktop)
++			vrr_signalled = vrr_params.state != VRR_STATE_DISABLED &&
++					vrr_params.state != VRR_STATE_UNSUPPORTED;
++		else
++			vrr_signalled = vrr_params.state == VRR_STATE_ACTIVE_VARIABLE ||
++					vrr_params.state == VRR_STATE_ACTIVE_FIXED;
++
++		allm = sink_allm && vrr_signalled;
++
+ 		mod_build_hf_vsif_infopacket(new_stream, &vsp_infopacket, allm, allm);
+ 
+ 		allm_changed = memcmp(&new_stream->vsp_infopacket, &vsp_infopacket,
+@@ -337,6 +346,14 @@
+ 						     VRR_STATE_ACTIVE_VARIABLE :
+ 						     VRR_STATE_INACTIVE;
+ 		}
++
++		/*
++		 * Keep HDMI VRR signalling (VTEM VRR_EN, ALLM) up while the
++		 * compositor runs a fixed refresh rate, like FreeSync-over-HDMI
++		 * does. Some sinks blank periodically when VRR_EN drops to 0.
++		 */
++		if (dc_is_hdmi_signal(new_stream->signal))
++			new_stream->freesync_on_desktop = true;
+ 	} else {
+ 		config.state = VRR_STATE_UNSUPPORTED;
+ 	}
+diff -ruN a/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c b/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
+--- a/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c	2026-09-19 13:38:37.896647888 +0200
++++ b/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c	2026-09-19 13:38:37.907717558 +0200
+@@ -664,17 +664,25 @@
+ 		struct dc_info_packet *infopacket)
+ {
+ 	unsigned int field_rate_in_hz;
++	bool vrr_en;
++
++	/*
++	 * With freesync_on_desktop, keep VRR_EN asserted whenever the sink
++	 * supports VRR, even while the refresh rate is actually fixed
++	 * (VRR_STATE_INACTIVE). Otherwise only signal it while VRR is active.
++	 */
++	if (stream->freesync_on_desktop)
++		vrr_en = vrr->state != VRR_STATE_DISABLED &&
++			 vrr->state != VRR_STATE_UNSUPPORTED;
++	else
++		vrr_en = vrr->state == VRR_STATE_ACTIVE_VARIABLE ||
++			 vrr->state == VRR_STATE_ACTIVE_FIXED;
+ 
+ 	/* FVA Factor setting */
+ 	set_field_with_mask(&infopacket->sb[VTEM_MD0], MASK_VTEM_MD0__FVA_FACTOR_M1,
+ 			(fva_factor > 0) ? (fva_factor - 1) : 0);
+ 	/* VRR Parameters */
+-	if (vrr->state == VRR_STATE_ACTIVE_VARIABLE ||
+-	    vrr->state == VRR_STATE_ACTIVE_FIXED) {
+-		set_field_with_mask(&infopacket->sb[VTEM_MD0], MASK_VTEM_MD0__VRR_EN, 1);
+-	} else {
+-		set_field_with_mask(&infopacket->sb[VTEM_MD0], MASK_VTEM_MD0__VRR_EN, 0);
+-	}
++	set_field_with_mask(&infopacket->sb[VTEM_MD0], MASK_VTEM_MD0__VRR_EN, vrr_en ? 1 : 0);
+ 
+ 	if (vrr->state == VRR_STATE_ACTIVE_FIXED)
+ 		set_field_with_mask(&infopacket->sb[VTEM_MD0], MASK_VTEM_MD0__M_CONST, vrr->m_const);
+@@ -712,8 +720,7 @@
+ 	 * VTEM with Data_Set_Length = 0 preserves the every-MTW cadence while
+ 	 * staying compliant (e.g. HDMI GCTS HF1-58 step 6.2).
+ 	 */
+-	if (vrr->state != VRR_STATE_ACTIVE_VARIABLE &&
+-	    vrr->state != VRR_STATE_ACTIVE_FIXED && fva_factor == 0)
++	if (!vrr_en && fva_factor == 0)
+ 		set_field_with_mask(&infopacket->sb[VTEM_PB6],
+ 				 MASK_VTEM_PB6__DATA_SET_LENGTH_LSB, 0);
+ 

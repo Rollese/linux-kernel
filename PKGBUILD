@@ -70,11 +70,13 @@ source=(
   0022-tcp-write-buffer.patch
   0023-amdgpu-max-power-limit-115pct.patch
   0024-amdgpu-dm-prefer-rgb-over-ycbcr444.patch
+  0025-amdgpu-dm-hdmi-freesync-on-desktop.patch
 )
 b2sums=(
   'SKIP'
   # 'SKIP'
   # 'SKIP'
+  'SKIP'
   'SKIP'
   'SKIP'
   'SKIP'
