@@ -113,7 +113,7 @@ index 105b9dcc19a2..7b08814a24da 100644
  AMDKFD_PATH := ../amdkfd
  include $(FULL_AMD_PATH)/amdkfd/Makefile
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index 7974f9b7944f..79b69d74eb2e 100644
+index a9c6f5d4a639..3bad7b8f621c 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
 @@ -116,6 +116,7 @@
@@ -151,7 +151,7 @@ index 7974f9b7944f..79b69d74eb2e 100644
  };
  
  /*
-@@ -796,6 +801,9 @@ struct amdgpu_device {
+@@ -799,6 +804,9 @@ struct amdgpu_device {
  	/* display related functionality */
  	struct amdgpu_display_manager dm;
  
@@ -186,7 +186,7 @@ index 9014678d75ab..e475bf2bd1a0 100644
  	.set_powergating_state = acp_set_powergating_state,
  };
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
-index 816d8817f0b2..09feb45584ba 100644
+index 054870e9078d..17365cd0a997 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
 @@ -727,7 +727,7 @@ int amdgpu_amdkfd_submit_ib(struct amdgpu_device *adev,
@@ -394,7 +394,7 @@ index 7fd2a8bc7d08..30a8b4c5591d 100644
  			goto output_ib_content;
  
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 104d1d2cbad9..0426118a9279 100644
+index 9269e780feb7..4c2bb04a3da9 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
 @@ -247,6 +247,9 @@ static int amdgpu_device_attr_sysfs_init(struct amdgpu_device *adev)
@@ -416,7 +416,7 @@ index 104d1d2cbad9..0426118a9279 100644
  }
  
  static ssize_t amdgpu_sysfs_reg_state_get(struct file *f, struct kobject *kobj,
-@@ -2504,7 +2509,8 @@ static int amdgpu_device_ip_init(struct amdgpu_device *adev)
+@@ -2501,7 +2506,8 @@ static int amdgpu_device_ip_init(struct amdgpu_device *adev)
  	/**
  	 * In case of XGMI grab extra reference for reset domain for this device
  	 */
@@ -426,7 +426,7 @@ index 104d1d2cbad9..0426118a9279 100644
  		if (amdgpu_xgmi_add_device(adev) == 0) {
  			if (!amdgpu_sriov_vf(adev)) {
  				struct amdgpu_hive_info *hive = amdgpu_get_xgmi_hive(adev);
-@@ -2787,7 +2793,7 @@ static int amdgpu_device_ip_late_init(struct amdgpu_device *adev)
+@@ -2784,7 +2790,7 @@ static int amdgpu_device_ip_late_init(struct amdgpu_device *adev)
  	     adev->asic_type == CHIP_ALDEBARAN))
  		amdgpu_dpm_handle_passthrough_sbr(adev, true);
  
@@ -435,7 +435,7 @@ index 104d1d2cbad9..0426118a9279 100644
  		mutex_lock(&mgpu_info.mutex);
  
  		/*
-@@ -2950,7 +2956,7 @@ static int amdgpu_device_ip_fini(struct amdgpu_device *adev)
+@@ -2947,7 +2953,7 @@ static int amdgpu_device_ip_fini(struct amdgpu_device *adev)
  	if (amdgpu_sriov_vf(adev) && adev->virt.ras_init_done)
  		amdgpu_virt_release_ras_err_handler_data(adev);
  
@@ -444,7 +444,7 @@ index 104d1d2cbad9..0426118a9279 100644
  		amdgpu_xgmi_remove_device(adev);
  
  	amdgpu_amdkfd_device_fini_sw(adev);
-@@ -3724,6 +3730,7 @@ static int amdgpu_device_sys_interface_init(struct amdgpu_device *adev)
+@@ -3721,6 +3727,7 @@ static int amdgpu_device_sys_interface_init(struct amdgpu_device *adev)
  	amdgpu_xcp_sysfs_init(adev);
  	amdgpu_uma_sysfs_init(adev);
  	amdgpu_ptl_sysfs_init(adev);
@@ -452,7 +452,7 @@ index 104d1d2cbad9..0426118a9279 100644
  
  	return r;
  }
-@@ -3745,6 +3752,7 @@ static void amdgpu_device_sys_interface_fini(struct amdgpu_device *adev)
+@@ -3742,6 +3749,7 @@ static void amdgpu_device_sys_interface_fini(struct amdgpu_device *adev)
  	amdgpu_xcp_sysfs_fini(adev);
  	amdgpu_uma_sysfs_fini(adev);
  	amdgpu_ptl_sysfs_fini(adev);
@@ -460,7 +460,7 @@ index 104d1d2cbad9..0426118a9279 100644
  }
  
  static bool
-@@ -3853,6 +3861,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+@@ -3851,6 +3859,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
  	spin_lock_init(&adev->mm_stats.lock);
  	spin_lock_init(&adev->virt.rlcg_reg_lock);
  	spin_lock_init(&adev->wb.lock);
@@ -1012,10 +1012,10 @@ index 5b2b16f68576..6e1d55e78790 100644
 +
  #endif /* __AMDGPU_DISCOVERY__ */
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-index b33c300e26e2..b4fbd8a407f1 100644
+index 9adf3eed8822..4031ebe075d8 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-@@ -558,6 +558,11 @@ struct drm_gem_object *amdgpu_gem_prime_import(struct drm_device *dev,
+@@ -599,6 +599,11 @@ struct drm_gem_object *amdgpu_gem_prime_import(struct drm_device *dev,
  			 */
  			drm_gem_object_get(obj);
  			return obj;
@@ -3667,7 +3667,7 @@ index b96d885f6e33..fe61ed5b487e 100644
  #define CREATE_TRACE_POINTS
  #include "amdgpu_trace.h"
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 016957cac1f2..c509dc45ba19 100644
+index 016957cac1f2..0e313d7916a4 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
 @@ -56,6 +56,7 @@
@@ -3818,7 +3818,19 @@ index 016957cac1f2..c509dc45ba19 100644
  	ttm_device_fini(&adev->mman.bdev);
  	adev->mman.initialized = false;
  	dev_info(adev->dev, " ttm finalized\n");
-@@ -2653,7 +2678,7 @@ int amdgpu_ttm_clear_buffer(struct amdgpu_ttm_buffer_entity *entity,
+@@ -2368,8 +2393,9 @@ void amdgpu_ttm_enable_buffer_funcs(struct amdgpu_device *adev)
+ 	num_clear_entities = MIN(adev->mman.num_buffer_funcs_scheds, TTM_NUM_MOVE_FENCES);
+ 	num_move_entities = MIN(adev->mman.num_buffer_funcs_scheds, TTM_NUM_MOVE_FENCES);
+ 
+-	adev->mman.clear_entities = kzalloc_objs(struct amdgpu_ttm_buffer_entity,
+-						 num_clear_entities);
++	adev->mman.clear_entities = kcalloc(num_clear_entities,
++						sizeof(struct amdgpu_ttm_buffer_entity),
++						GFP_KERNEL);
+ 	atomic_set(&adev->mman.next_clear_entity, 0);
+ 	if (!adev->mman.clear_entities)
+ 		goto error_free_default_entity;
+@@ -2653,7 +2679,7 @@ int amdgpu_ttm_clear_buffer(struct amdgpu_ttm_buffer_entity *entity,
  		cur_size = min(dst.size, 256ULL << 20);
  
  		r = amdgpu_ttm_map_buffer(entity, &bo->tbo, bo->tbo.resource, &dst,
@@ -3827,7 +3839,7 @@ index 016957cac1f2..c509dc45ba19 100644
  		if (r)
  			goto error;
  
-@@ -2708,6 +2733,7 @@ int amdgpu_ttm_evict_resources(struct amdgpu_device *adev, int mem_type)
+@@ -2708,6 +2734,7 @@ int amdgpu_ttm_evict_resources(struct amdgpu_device *adev, int mem_type)
  	case AMDGPU_PL_GWS:
  	case AMDGPU_PL_GDS:
  	case AMDGPU_PL_OA:
@@ -22872,7 +22884,7 @@ index 586e640f13dc..1c1e7878a2a7 100644
  
  	return min(node->adev->sdma.num_instances/(int)node->kfd->num_nodes, 2);
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-index 9811e4e10291..3ec6a73af22e 100644
+index 2f78395a0c31..0ab2d536b122 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
 @@ -47,6 +47,9 @@
@@ -22927,7 +22939,7 @@ index 9811e4e10291..3ec6a73af22e 100644
  }
  
  static int remove_all_kfd_queues_mes(struct device_queue_manager *dqm)
-@@ -2059,6 +2086,43 @@ static int unhalt_cpsch(struct device_queue_manager *dqm)
+@@ -2061,6 +2088,43 @@ static int unhalt_cpsch(struct device_queue_manager *dqm)
  	return ret;
  }
  
@@ -22971,7 +22983,7 @@ index 9811e4e10291..3ec6a73af22e 100644
  static int start_cpsch(struct device_queue_manager *dqm)
  {
  	struct device *dev = dqm->dev->adev->dev;
-@@ -2100,6 +2164,9 @@ static int start_cpsch(struct device_queue_manager *dqm)
+@@ -2102,6 +2166,9 @@ static int start_cpsch(struct device_queue_manager *dqm)
  				KFD_DEQUEUE_WAIT_INIT, 0 /* unused */))
  			dev_err(dev, "Setting optimized dequeue wait failed. Using default values\n");
  		execute_queues_cpsch(dqm, KFD_UNMAP_QUEUES_FILTER_DYNAMIC_QUEUES, 0, USE_DEFAULT_GRACE_PERIOD);
@@ -22981,7 +22993,7 @@ index 9811e4e10291..3ec6a73af22e 100644
  	}
  
  	/* setup per-queue reset detection buffer  */
-@@ -3212,6 +3279,20 @@ static void deallocate_hiq_sdma_mqd(struct kfd_node *dev,
+@@ -3215,6 +3282,20 @@ static void deallocate_hiq_sdma_mqd(struct kfd_node *dev,
  	amdgpu_amdkfd_free_kernel_mem(dev->adev, &mqd->mem);
  }
  
@@ -23002,7 +23014,7 @@ index 9811e4e10291..3ec6a73af22e 100644
  struct device_queue_manager *device_queue_manager_init(struct kfd_node *dev)
  {
  	struct device_queue_manager *dqm;
-@@ -3337,6 +3418,8 @@ struct device_queue_manager *device_queue_manager_init(struct kfd_node *dev)
+@@ -3340,6 +3421,8 @@ struct device_queue_manager *device_queue_manager_init(struct kfd_node *dev)
  
  	if (!dqm->ops.initialize(dqm)) {
  		init_waitqueue_head(&dqm->destroy_wait);
@@ -23011,7 +23023,7 @@ index 9811e4e10291..3ec6a73af22e 100644
  		return dqm;
  	}
  
-@@ -3353,6 +3436,7 @@ struct device_queue_manager *device_queue_manager_init(struct kfd_node *dev)
+@@ -3356,6 +3439,7 @@ struct device_queue_manager *device_queue_manager_init(struct kfd_node *dev)
  
  void device_queue_manager_uninit(struct device_queue_manager *dqm)
  {
@@ -23115,7 +23127,7 @@ index 253365a8257e..6b64b1692235 100644
  		pgmap->range.end = adev->gmc.aper_base + adev->gmc.aper_size - 1;
  		pgmap->type = MEMORY_DEVICE_COHERENT;
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v12_1.c b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v12_1.c
-index 431a940f91f3..92ec081842df 100644
+index c709db0210ce..f6013746604f 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v12_1.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v12_1.c
 @@ -31,6 +31,7 @@
@@ -23353,7 +23365,7 @@ index 1727d25646cc..617bc1932524 100644
  	bool "Enable kgdb break in DC"
  	depends on DRM_AMD_DC
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 08b8605029ab..df649ae66de2 100644
+index 36d2f86f000a..69b91a2b1969 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 @@ -141,12 +141,14 @@ static int amdgpu_dm_initialize_drm_device(struct amdgpu_device *adev);
@@ -24276,7 +24288,7 @@ index 08b8605029ab..df649ae66de2 100644
  }
 +EXPORT_IF_KUNIT(dm_acpi_process_phy_transition_interlock);
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index 3524931451c8..c99a84bb040e 100644
+index 881c8d1c3cc0..1eae8b0068ad 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
 @@ -86,6 +86,9 @@ struct dc;
@@ -24289,7 +24301,7 @@ index 3524931451c8..c99a84bb040e 100644
  struct dmub_notification;
  struct dmub_cmd_fused_request;
  
-@@ -1157,7 +1160,6 @@ struct __drm_planes_state *amdgpu_dm_get_next_zpos(struct drm_atomic_commit *sta
+@@ -1169,7 +1172,6 @@ struct __drm_planes_state *amdgpu_dm_get_next_zpos(struct drm_atomic_commit *sta
  
  #if IS_ENABLED(CONFIG_DRM_AMD_DC_KUNIT_TEST)
  struct amdgpu_ip_block;
@@ -24297,7 +24309,7 @@ index 3524931451c8..c99a84bb040e 100644
  int dm_wait_for_idle(struct amdgpu_ip_block *ip_block);
  int dm_soft_reset(struct amdgpu_ip_block *ip_block);
  int dm_set_clockgating_state(struct amdgpu_ip_block *ip_block,
-@@ -1169,9 +1171,77 @@ u32 dm_vblank_get_counter(struct amdgpu_device *adev, int crtc);
+@@ -1181,9 +1183,77 @@ u32 dm_vblank_get_counter(struct amdgpu_device *adev, int crtc);
  int dm_crtc_get_scanoutpos(struct amdgpu_device *adev, int crtc,
  			   u32 *vbl, u32 *position);
  struct dm_atomic_state *dm_atomic_get_new_state(struct drm_atomic_commit *state);
@@ -24375,7 +24387,7 @@ index 3524931451c8..c99a84bb040e 100644
  int fill_plane_color_attributes(const struct drm_plane_state *plane_state,
  				const enum surface_pixel_format format,
  				enum dc_color_space *color_space);
-@@ -1188,6 +1258,72 @@ bool is_content_protection_different(struct drm_crtc_state *new_crtc_state,
+@@ -1200,6 +1270,72 @@ bool is_content_protection_different(struct drm_crtc_state *new_crtc_state,
  				     struct drm_connector_state *old_conn_state,
  				     const struct drm_connector *connector,
  				     struct hdcp_workqueue *hdcp_w);
@@ -25101,10 +25113,10 @@ index 4e9eb3ff2c90..e42a0d53b549 100644
  #endif
  #endif /* __AMDGPU_DM_CONNECTOR_H__ */
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-index 62eac6e65334..4b8530d734e5 100644
+index 1d941be73561..e83ea26b0470 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-@@ -249,6 +249,30 @@ STATIC_IFN_KUNIT void amdgpu_dm_crtc_vblank_control_worker(struct work_struct *w
+@@ -250,6 +250,30 @@ STATIC_IFN_KUNIT void amdgpu_dm_crtc_vblank_control_worker(struct work_struct *w
  }
  EXPORT_IF_KUNIT(amdgpu_dm_crtc_vblank_control_worker);
  
@@ -25135,7 +25147,7 @@ index 62eac6e65334..4b8530d734e5 100644
  static inline int amdgpu_dm_crtc_set_vblank(struct drm_crtc *crtc, bool enable)
  {
  	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
-@@ -358,19 +382,9 @@ static inline int amdgpu_dm_crtc_set_vblank(struct drm_crtc *crtc, bool enable)
+@@ -359,19 +383,9 @@ static inline int amdgpu_dm_crtc_set_vblank(struct drm_crtc *crtc, bool enable)
  	}
  
  #if defined(CONFIG_DRM_AMD_SECURE_DISPLAY)
@@ -25158,7 +25170,7 @@ index 62eac6e65334..4b8530d734e5 100644
  #endif
  
  	if (amdgpu_in_reset(adev))
-@@ -463,7 +477,7 @@ STATIC_IFN_KUNIT struct drm_crtc_state *amdgpu_dm_crtc_duplicate_state(struct dr
+@@ -464,7 +478,7 @@ STATIC_IFN_KUNIT struct drm_crtc_state *amdgpu_dm_crtc_duplicate_state(struct dr
  }
  EXPORT_IF_KUNIT(amdgpu_dm_crtc_duplicate_state);
  
@@ -25167,7 +25179,7 @@ index 62eac6e65334..4b8530d734e5 100644
  {
  	/*
  	 * amdgpu_dm_ism_fini() is intentionally called in amdgpu_dm_fini().
-@@ -474,6 +488,7 @@ static void amdgpu_dm_crtc_destroy(struct drm_crtc *crtc)
+@@ -475,6 +489,7 @@ static void amdgpu_dm_crtc_destroy(struct drm_crtc *crtc)
  	drm_crtc_cleanup(crtc);
  	kfree(crtc);
  }
@@ -25175,7 +25187,7 @@ index 62eac6e65334..4b8530d734e5 100644
  
  STATIC_IFN_KUNIT void amdgpu_dm_crtc_reset_state(struct drm_crtc *crtc)
  {
-@@ -491,12 +506,13 @@ STATIC_IFN_KUNIT void amdgpu_dm_crtc_reset_state(struct drm_crtc *crtc)
+@@ -492,12 +507,13 @@ STATIC_IFN_KUNIT void amdgpu_dm_crtc_reset_state(struct drm_crtc *crtc)
  EXPORT_IF_KUNIT(amdgpu_dm_crtc_reset_state);
  
  #ifdef CONFIG_DEBUG_FS
@@ -25190,7 +25202,7 @@ index 62eac6e65334..4b8530d734e5 100644
  #endif
  
  #ifdef AMD_PRIVATE_COLOR
-@@ -648,7 +664,7 @@ STATIC_IFN_KUNIT bool amdgpu_dm_crtc_helper_mode_fixup(struct drm_crtc *crtc,
+@@ -649,7 +665,7 @@ STATIC_IFN_KUNIT bool amdgpu_dm_crtc_helper_mode_fixup(struct drm_crtc *crtc,
  }
  EXPORT_IF_KUNIT(amdgpu_dm_crtc_helper_mode_fixup);
  
@@ -25199,7 +25211,7 @@ index 62eac6e65334..4b8530d734e5 100644
  					      struct drm_atomic_commit *state)
  {
  	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
-@@ -710,6 +726,7 @@ static int amdgpu_dm_crtc_helper_atomic_check(struct drm_crtc *crtc,
+@@ -711,6 +727,7 @@ static int amdgpu_dm_crtc_helper_atomic_check(struct drm_crtc *crtc,
  	DRM_DEBUG_ATOMIC("Failed DC stream validation\n");
  	return ret;
  }
@@ -25207,7 +25219,7 @@ index 62eac6e65334..4b8530d734e5 100644
  
  static const struct drm_crtc_helper_funcs amdgpu_dm_crtc_helper_funcs = {
  	.disable = amdgpu_dm_crtc_helper_disable,
-@@ -820,4 +837,5 @@ int amdgpu_dm_crtc_init(struct amdgpu_display_manager *dm,
+@@ -821,4 +838,5 @@ int amdgpu_dm_crtc_init(struct amdgpu_display_manager *dm,
  	kfree(cursor_plane);
  	return res;
  }
@@ -25742,7 +25754,7 @@ index 7e484adb4120..e8ae238bbb69 100644
  }
 +EXPORT_IF_KUNIT(amdgpu_dm_handle_vrr_transition);
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index 298de7b75ca8..5d4f578851ae 100644
+index ced8b3d2d762..3217aa82bea2 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
 @@ -131,6 +131,14 @@ STATIC_IFN_KUNIT void apply_edid_quirks(struct dc_link *link, struct edid *edid,
@@ -25818,16 +25830,51 @@ index 298de7b75ca8..5d4f578851ae 100644
  
  bool dm_helpers_dmub_outbox_interrupt_control(struct dc_context *ctx, bool enable)
  {
-@@ -1911,3 +1942,4 @@ bool dm_helpers_submit_i2c_over_aux(struct ddc_service *ddc, uint32_t address, u
+@@ -1912,3 +1943,4 @@ bool dm_helpers_submit_i2c_over_aux(struct ddc_service *ddc, uint32_t address, u
  	//TODO: Implement this
  	return false;
  }
 +EXPORT_IF_KUNIT(dm_helpers_submit_i2c_over_aux);
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
-index d0239a3de2e1..f997a50c1293 100644
+index 74a8735168aa..f997a50c1293 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
-@@ -618,6 +618,9 @@ STATIC_IFN_KUNIT void amdgpu_dm_irq_schedule_work(struct amdgpu_device *adev,
+@@ -396,7 +396,6 @@ int amdgpu_dm_irq_init(struct amdgpu_device *adev)
+ 	DRM_DEBUG_KMS("DM_IRQ\n");
+ 
+ 	spin_lock_init(&adev->dm.irq_handler_list_table_lock);
+-	spin_lock_init(&adev->dm.irq_reg_lock);
+ 
+ 	adev->dm.irq_wq = alloc_workqueue("amdgpu_dm_irq",
+ 		WQ_UNBOUND | WQ_HIGHPRI, 0);
+@@ -531,7 +530,7 @@ void amdgpu_dm_irq_suspend(struct amdgpu_device *adev)
+ 	 */
+ 	for (src = DC_IRQ_SOURCE_HPD1; src <= DC_IRQ_SOURCE_HPD6RX; src++) {
+ 		hnd_list_l = &adev->dm.irq_handler_list_low_tab[src];
+-		amdgpu_dm_irq_set(adev, src, false);
++		dc_interrupt_set(adev->dm.dc, src, false);
+ 
+ 		DM_IRQ_TABLE_UNLOCK(adev, irq_table_flags);
+ 
+@@ -569,7 +568,7 @@ void amdgpu_dm_irq_resume_early(struct amdgpu_device *adev)
+ 		hnd_list_l = &adev->dm.irq_handler_list_low_tab[src];
+ 		hnd_list_h = &adev->dm.irq_handler_list_high_tab[src];
+ 		if (!list_empty(hnd_list_l) || !list_empty(hnd_list_h))
+-			amdgpu_dm_irq_set(adev, src, true);
++			dc_interrupt_set(adev->dm.dc, src, true);
+ 	}
+ 
+ 	DM_IRQ_TABLE_UNLOCK(adev, irq_table_flags);
+@@ -595,7 +594,7 @@ void amdgpu_dm_irq_resume_late(struct amdgpu_device *adev)
+ 		hnd_list_l = &adev->dm.irq_handler_list_low_tab[src];
+ 		hnd_list_h = &adev->dm.irq_handler_list_high_tab[src];
+ 		if (!list_empty(hnd_list_l) || !list_empty(hnd_list_h))
+-			amdgpu_dm_irq_set(adev, src, true);
++			dc_interrupt_set(adev->dm.dc, src, true);
+ 	}
+ 
+ 	DM_IRQ_TABLE_UNLOCK(adev, irq_table_flags);
+@@ -619,6 +618,9 @@ STATIC_IFN_KUNIT void amdgpu_dm_irq_schedule_work(struct amdgpu_device *adev,
  
  	DM_IRQ_TABLE_LOCK(adev, irq_table_flags);
  
@@ -25837,18 +25884,159 @@ index d0239a3de2e1..f997a50c1293 100644
  	if (list_empty(handler_list))
  		goto out_unlock;
  
-@@ -710,6 +713,11 @@ STATIC_IFN_KUNIT int amdgpu_dm_irq_handler(struct amdgpu_device *adev,
+@@ -691,23 +693,6 @@ STATIC_IFN_KUNIT void amdgpu_dm_irq_immediate_work(struct amdgpu_device *adev,
+ }
+ EXPORT_IF_KUNIT(amdgpu_dm_irq_immediate_work);
+ 
+-bool amdgpu_dm_irq_set(struct amdgpu_device *adev, enum dc_irq_source src,
+-		       bool enable)
+-{
+-	guard(spinlock_irqsave)(&adev->dm.irq_reg_lock);
+-
+-	return dc_interrupt_set(adev->dm.dc, src, enable);
+-}
+-EXPORT_IF_KUNIT(amdgpu_dm_irq_set);
+-
+-void amdgpu_dm_irq_ack(struct amdgpu_device *adev, enum dc_irq_source src)
+-{
+-	guard(spinlock_irqsave)(&adev->dm.irq_reg_lock);
+-
+-	dc_interrupt_ack(adev->dm.dc, src);
+-}
+-EXPORT_IF_KUNIT(amdgpu_dm_irq_ack);
+-
+ /**
+  * amdgpu_dm_irq_handler - Generic DM IRQ handler
+  * @adev: amdgpu base driver device containing the DM device
+@@ -728,7 +713,12 @@ STATIC_IFN_KUNIT int amdgpu_dm_irq_handler(struct amdgpu_device *adev,
  			entry->src_id,
  			entry->src_data[0]);
  
+-	amdgpu_dm_irq_ack(adev, src);
 +	if (!DAL_VALID_IRQ_SRC_NUM(src)) {
 +		DRM_ERROR("DM_IRQ: invalid irq_source:%d!\n", src);
 +		return 0;
 +	}
 +
- 	dc_interrupt_ack(adev->dm.dc, src);
++	dc_interrupt_ack(adev->dm.dc, src);
  
  	/* Call high irq work immediately */
+ 	amdgpu_dm_irq_immediate_work(adev, src);
+@@ -768,7 +758,7 @@ STATIC_IFN_KUNIT int amdgpu_dm_set_hpd_irq_state(struct amdgpu_device *adev,
+ 	enum dc_irq_source src = amdgpu_dm_hpd_to_dal_irq_source(type);
+ 	bool st = (state == AMDGPU_IRQ_STATE_ENABLE);
+ 
+-	amdgpu_dm_irq_set(adev, src, st);
++	dc_interrupt_set(adev->dm.dc, src, st);
+ 	return 0;
+ }
+ EXPORT_IF_KUNIT(amdgpu_dm_set_hpd_irq_state);
+@@ -803,7 +793,7 @@ static inline int dm_irq_state(struct amdgpu_device *adev,
+ 	if (dc && dc->caps.ips_support && dc->idle_optimizations_allowed)
+ 		dc_allow_idle_optimizations(dc, false);
+ 
+-	amdgpu_dm_irq_set(adev, irq_source, st);
++	dc_interrupt_set(adev->dm.dc, irq_source, st);
+ 	return 0;
+ }
+ 
+@@ -860,7 +850,7 @@ STATIC_IFN_KUNIT int amdgpu_dm_set_dmub_outbox_irq_state(struct amdgpu_device *a
+ 	enum dc_irq_source irq_source = DC_IRQ_SOURCE_DMCUB_OUTBOX;
+ 	bool st = (state == AMDGPU_IRQ_STATE_ENABLE);
+ 
+-	amdgpu_dm_irq_set(adev, irq_source, st);
++	dc_interrupt_set(adev->dm.dc, irq_source, st);
+ 	return 0;
+ }
+ EXPORT_IF_KUNIT(amdgpu_dm_set_dmub_outbox_irq_state);
+@@ -888,7 +878,7 @@ STATIC_IFN_KUNIT int amdgpu_dm_set_dmub_trace_irq_state(struct amdgpu_device *ad
+ 	enum dc_irq_source irq_source = DC_IRQ_SOURCE_DMCUB_OUTBOX0;
+ 	bool st = (state == AMDGPU_IRQ_STATE_ENABLE);
+ 
+-	amdgpu_dm_irq_set(adev, irq_source, st);
++	dc_interrupt_set(adev->dm.dc, irq_source, st);
+ 	return 0;
+ }
+ EXPORT_IF_KUNIT(amdgpu_dm_set_dmub_trace_irq_state);
+@@ -955,7 +945,9 @@ EXPORT_IF_KUNIT(amdgpu_dm_set_irq_funcs);
+ 
+ void amdgpu_dm_outbox_init(struct amdgpu_device *adev)
+ {
+-	amdgpu_dm_irq_set(adev, DC_IRQ_SOURCE_DMCUB_OUTBOX, true);
++	dc_interrupt_set(adev->dm.dc,
++		DC_IRQ_SOURCE_DMCUB_OUTBOX,
++		true);
+ }
+ EXPORT_IF_KUNIT(amdgpu_dm_outbox_init);
+ 
+@@ -978,7 +970,7 @@ void amdgpu_dm_hpd_init(struct amdgpu_device *adev)
+ 
+ 	/* First, clear all hpd and hpdrx interrupts */
+ 	for (i = DC_IRQ_SOURCE_HPD1; i <= DC_IRQ_SOURCE_HPD6RX; i++) {
+-		if (!amdgpu_dm_irq_set(adev, i, false))
++		if (!dc_interrupt_set(adev->dm.dc, i, false))
+ 			drm_err(dev, "Failed to clear hpd(rx) source=%d on init\n",
+ 				i);
+ 	}
+@@ -1007,7 +999,7 @@ void amdgpu_dm_hpd_init(struct amdgpu_device *adev)
+ 		 * of dm. Note that only hpd interrupt types are registered with
+ 		 * base driver; hpd_rx types aren't. IOW, amdgpu_irq_get/put on
+ 		 * hpd_rx isn't available. DM currently controls hpd_rx
+-		 * explicitly with amdgpu_dm_irq_set()
++		 * explicitly with dc_interrupt_set()
+ 		 */
+ 		if (dc_link->irq_source_hpd != DC_IRQ_SOURCE_INVALID) {
+ 			irq_type = dc_link->irq_source_hpd - DC_IRQ_SOURCE_HPD1;
+@@ -1016,21 +1008,23 @@ void amdgpu_dm_hpd_init(struct amdgpu_device *adev)
+ 			 * and what bios reports as the # of connectors with hpd
+ 			 * sources. Since the # of hpd source types registered
+ 			 * with base driver == mode_info.num_hpd, we have to
+-			 * fallback to amdgpu_dm_irq_set for the remaining types.
++			 * fallback to dc_interrupt_set for the remaining types.
+ 			 */
+ 			if (irq_type < adev->mode_info.num_hpd) {
+ 				if (amdgpu_irq_get(adev, &adev->hpd_irq, irq_type))
+ 					drm_err(dev, "DM_IRQ: Failed get HPD for source=%d)!\n",
+ 						dc_link->irq_source_hpd);
+ 			} else {
+-				amdgpu_dm_irq_set(adev, dc_link->irq_source_hpd,
+-						  true);
++				dc_interrupt_set(adev->dm.dc,
++						 dc_link->irq_source_hpd,
++						 true);
+ 			}
+ 		}
+ 
+ 		if (dc_link->irq_source_hpd_rx != DC_IRQ_SOURCE_INVALID) {
+-			amdgpu_dm_irq_set(adev, dc_link->irq_source_hpd_rx,
+-					  true);
++			dc_interrupt_set(adev->dm.dc,
++					dc_link->irq_source_hpd_rx,
++					true);
+ 		}
+ 	}
+ 	drm_connector_list_iter_end(&iter);
+@@ -1075,14 +1069,16 @@ void amdgpu_dm_hpd_fini(struct amdgpu_device *adev)
+ 					drm_err(dev, "DM_IRQ: Failed put HPD for source=%d!\n",
+ 						dc_link->irq_source_hpd);
+ 			} else {
+-				amdgpu_dm_irq_set(adev, dc_link->irq_source_hpd,
+-						  false);
++				dc_interrupt_set(adev->dm.dc,
++						 dc_link->irq_source_hpd,
++						 false);
+ 			}
+ 		}
+ 
+ 		if (dc_link->irq_source_hpd_rx != DC_IRQ_SOURCE_INVALID) {
+-			amdgpu_dm_irq_set(adev, dc_link->irq_source_hpd_rx,
+-					  false);
++			dc_interrupt_set(adev->dm.dc,
++					dc_link->irq_source_hpd_rx,
++					false);
+ 		}
+ 	}
+ 	drm_connector_list_iter_end(&iter);
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
 index 045a7f88b754..bce605fd6cdf 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
@@ -31052,7 +31240,7 @@ index 212a7536e65b..7cca1a331291 100644
  };
  
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/tests/amdgpu_dm_crtc_test.c b/drivers/gpu/drm/amd/display/amdgpu_dm/tests/amdgpu_dm_crtc_test.c
-index 0d998f204250..bc2b115b48b0 100644
+index ae0f4da96252..2e6301a92c5c 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/tests/amdgpu_dm_crtc_test.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/tests/amdgpu_dm_crtc_test.c
 @@ -10,10 +10,13 @@
@@ -31069,7 +31257,7 @@ index 0d998f204250..bc2b115b48b0 100644
  #include "amdgpu.h"
  #include "amdgpu_mode.h"
  #include "amdgpu_dm.h"
-@@ -1223,6 +1226,103 @@ static void dm_test_crtc_enable_vblank_ips_restore_replay(struct kunit *test)
+@@ -1227,6 +1230,103 @@ static void dm_test_crtc_enable_vblank_ips_restore_replay(struct kunit *test)
  	KUNIT_EXPECT_EQ(test, amdgpu_dm_crtc_enable_vblank(&acrtc->base), 0);
  }
  
@@ -31173,7 +31361,7 @@ index 0d998f204250..bc2b115b48b0 100644
  /* Tests for amdgpu_dm_crtc_update_crtc_active_planes() */
  
  /**
-@@ -1404,6 +1504,106 @@ static void dm_test_crtc_duplicate_state_copies_fields(struct kunit *test)
+@@ -1408,6 +1508,106 @@ static void dm_test_crtc_duplicate_state_copies_fields(struct kunit *test)
  	amdgpu_dm_crtc_destroy_state(crtc, dup);
  }
  
@@ -31280,7 +31468,7 @@ index 0d998f204250..bc2b115b48b0 100644
  /* Tests for amdgpu_dm_crtc_reset_state() */
  
  /**
-@@ -1431,6 +1631,48 @@ static void dm_test_crtc_reset_state_allocates_state(struct kunit *test)
+@@ -1435,6 +1635,48 @@ static void dm_test_crtc_reset_state_allocates_state(struct kunit *test)
  		amdgpu_dm_crtc_destroy_state(crtc, crtc->state);
  }
  
@@ -31329,7 +31517,7 @@ index 0d998f204250..bc2b115b48b0 100644
  /* Tests for amdgpu_dm_crtc_destroy_state() */
  
  /**
-@@ -1848,6 +2090,487 @@ static void dm_test_crtc_disable_vblank_queues_work(struct kunit *test)
+@@ -1852,6 +2094,487 @@ static void dm_test_crtc_disable_vblank_queues_work(struct kunit *test)
  	KUNIT_EXPECT_EQ(test, adev->dm.active_vblank_irq_count, 1);
  }
  
@@ -31817,7 +32005,7 @@ index 0d998f204250..bc2b115b48b0 100644
  static struct kunit_case amdgpu_dm_crtc_tests[] = {
  	/* amdgpu_dm_crtc_modeset_required */
  	KUNIT_CASE(dm_test_crtc_modeset_required_active_mode_changed),
-@@ -1900,6 +2623,10 @@ static struct kunit_case amdgpu_dm_crtc_tests[] = {
+@@ -1904,6 +2627,10 @@ static struct kunit_case amdgpu_dm_crtc_tests[] = {
  	KUNIT_CASE(dm_test_crtc_enable_vblank_queues_work),
  	KUNIT_CASE(dm_test_crtc_enable_vblank_ips_restore),
  	KUNIT_CASE(dm_test_crtc_enable_vblank_ips_restore_replay),
@@ -31828,7 +32016,7 @@ index 0d998f204250..bc2b115b48b0 100644
  	/* amdgpu_dm_crtc_update_crtc_active_planes */
  	KUNIT_CASE(dm_test_crtc_update_active_planes_no_stream),
  	/* amdgpu_dm_crtc_count_crtc_active_planes */
-@@ -1907,8 +2634,13 @@ static struct kunit_case amdgpu_dm_crtc_tests[] = {
+@@ -1911,8 +2638,13 @@ static struct kunit_case amdgpu_dm_crtc_tests[] = {
  	KUNIT_CASE(dm_test_count_crtc_active_planes_mixed),
  	/* amdgpu_dm_crtc_duplicate_state */
  	KUNIT_CASE(dm_test_crtc_duplicate_state_copies_fields),
@@ -31842,7 +32030,7 @@ index 0d998f204250..bc2b115b48b0 100644
  	/* amdgpu_dm_crtc_destroy_state */
  	KUNIT_CASE(dm_test_crtc_destroy_state_no_stream),
  	KUNIT_CASE(dm_test_crtc_destroy_state_releases_stream),
-@@ -1924,6 +2656,20 @@ static struct kunit_case amdgpu_dm_crtc_tests[] = {
+@@ -1928,6 +2660,20 @@ static struct kunit_case amdgpu_dm_crtc_tests[] = {
  	KUNIT_CASE(dm_test_crtc_disable_vblank_no_irq_installed),
  	KUNIT_CASE(dm_test_crtc_disable_vblank_vrr),
  	KUNIT_CASE(dm_test_crtc_disable_vblank_queues_work),
@@ -33668,7 +33856,7 @@ index 0ae636dcbbe4..82982553e8f3 100644
  };
  
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/tests/amdgpu_dm_helpers_test.c b/drivers/gpu/drm/amd/display/amdgpu_dm/tests/amdgpu_dm_helpers_test.c
-index 82e0c984693c..ded0f680296f 100644
+index 639512bea275..51c3995de76d 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/tests/amdgpu_dm_helpers_test.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/tests/amdgpu_dm_helpers_test.c
 @@ -6,19 +6,25 @@
@@ -33889,7 +34077,7 @@ index 82e0c984693c..ded0f680296f 100644
  /**
   * dm_test_apply_synaptics_fifo_reset_wa_full - Test full FIFO reset sequence
   * @test: The KUnit test context
-@@ -2517,6 +2669,38 @@ static void dm_test_mst_enable_stream_features_writes_downspread(struct kunit *t
+@@ -2521,6 +2673,38 @@ static void dm_test_mst_enable_stream_features_writes_downspread(struct kunit *t
  	KUNIT_EXPECT_EQ(test, fixture->dpcd_write_value, (u8)BIT(7));
  }
  
@@ -33928,7 +34116,7 @@ index 82e0c984693c..ded0f680296f 100644
  /* Tests for dm_helpers_enable_periodic_detection() */
  
  struct dm_test_idle_work {
-@@ -3716,6 +3900,672 @@ static void dm_test_dp_handle_test_pattern_no_pipe(struct kunit *test)
+@@ -3720,6 +3904,672 @@ static void dm_test_dp_handle_test_pattern_no_pipe(struct kunit *test)
  							       test_params));
  }
  
@@ -34601,7 +34789,7 @@ index 82e0c984693c..ded0f680296f 100644
  static struct kunit_case amdgpu_dm_helpers_test_cases[] = {
  	/* edid_extract_panel_id */
  	KUNIT_CASE(dm_test_edid_extract_panel_id_basic),
-@@ -3726,7 +4576,10 @@ static struct kunit_case amdgpu_dm_helpers_test_cases[] = {
+@@ -3730,7 +4580,10 @@ static struct kunit_case amdgpu_dm_helpers_test_cases[] = {
  	KUNIT_CASE(dm_test_apply_edid_quirks_remove_sink_ext_caps),
  	KUNIT_CASE(dm_test_apply_edid_quirks_disable_colorimetry),
  	KUNIT_CASE(dm_test_apply_edid_quirks_skip_phy_ssc),
@@ -34612,7 +34800,7 @@ index 82e0c984693c..ded0f680296f 100644
  	/* dm_helpers_parse_edid_caps */
  	KUNIT_CASE(dm_test_parse_edid_caps_null_edid),
  	KUNIT_CASE(dm_test_parse_edid_caps_null_caps),
-@@ -3741,6 +4594,7 @@ static struct kunit_case amdgpu_dm_helpers_test_cases[] = {
+@@ -3745,6 +4598,7 @@ static struct kunit_case amdgpu_dm_helpers_test_cases[] = {
  	KUNIT_CASE(dm_test_read_acpi_edid_debug_mask_disabled),
  	KUNIT_CASE(dm_test_read_acpi_edid_non_panel_connector),
  	KUNIT_CASE(dm_test_read_acpi_edid_force_off),
@@ -34620,7 +34808,7 @@ index 82e0c984693c..ded0f680296f 100644
  	KUNIT_CASE(dm_test_read_vbios_edid_non_embedded),
  	KUNIT_CASE(dm_test_read_vbios_edid_missing_callback),
  	KUNIT_CASE(dm_test_read_vbios_edid_callback_error),
-@@ -3788,6 +4642,10 @@ static struct kunit_case amdgpu_dm_helpers_test_cases[] = {
+@@ -3792,6 +4646,10 @@ static struct kunit_case amdgpu_dm_helpers_test_cases[] = {
  	KUNIT_CASE(dm_test_execute_synaptics_rc_command_write_success),
  	KUNIT_CASE(dm_test_execute_synaptics_rc_command_read_success),
  	KUNIT_CASE(dm_test_execute_synaptics_rc_command_write_fail),
@@ -34631,7 +34819,7 @@ index 82e0c984693c..ded0f680296f 100644
  	KUNIT_CASE(dm_test_apply_synaptics_fifo_reset_wa_full),
  	KUNIT_CASE(dm_test_apply_synaptics_fifo_reset_wa_first_fail),
  	KUNIT_CASE(dm_test_write_dsc_enable_synaptics_enable_inactive),
-@@ -3861,6 +4719,7 @@ static struct kunit_case amdgpu_dm_helpers_test_cases[] = {
+@@ -3865,6 +4723,7 @@ static struct kunit_case amdgpu_dm_helpers_test_cases[] = {
  	/* dm_helpers_mst_enable_stream_features */
  	KUNIT_CASE(dm_test_mst_enable_stream_features_aux_disabled),
  	KUNIT_CASE(dm_test_mst_enable_stream_features_writes_downspread),
@@ -34639,7 +34827,7 @@ index 82e0c984693c..ded0f680296f 100644
  	/* dm_helpers_enable_periodic_detection */
  	KUNIT_CASE(dm_test_enable_periodic_detection_no_workqueue),
  	KUNIT_CASE(dm_test_enable_periodic_detection_updates_enable),
-@@ -3895,6 +4754,22 @@ static struct kunit_case amdgpu_dm_helpers_test_cases[] = {
+@@ -3899,6 +4758,22 @@ static struct kunit_case amdgpu_dm_helpers_test_cases[] = {
  	KUNIT_CASE(dm_test_dp_write_dsc_enable_pcon_disable),
  	/* dm_helpers_dp_handle_test_pattern_request */
  	KUNIT_CASE(dm_test_dp_handle_test_pattern_no_pipe),
@@ -34663,7 +34851,7 @@ index 82e0c984693c..ded0f680296f 100644
  };
  
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/tests/amdgpu_dm_irq_test.c b/drivers/gpu/drm/amd/display/amdgpu_dm/tests/amdgpu_dm_irq_test.c
-index 861ee9eaa032..af4eb29faeed 100644
+index 95322d8c8613..dc7d94f75ff4 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/tests/amdgpu_dm_irq_test.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/tests/amdgpu_dm_irq_test.c
 @@ -9,6 +9,8 @@
@@ -44702,7 +44890,7 @@ index e10621b5eeff..9b109959bd7f 100644
 +
 +#endif
 diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn60/dcn60_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn60/dcn60_clk_mgr.c
-index 7dd88d90eba2..9f5714a83a0d 100644
+index 7dd88d90eba2..138afa7afc86 100644
 --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn60/dcn60_clk_mgr.c
 +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn60/dcn60_clk_mgr.c
 @@ -6,13 +6,14 @@
@@ -45247,15 +45435,17 @@ index 7dd88d90eba2..9f5714a83a0d 100644
  		.get_dtb_ref_clk_frequency = dcn60_get_dtb_ref_freq_khz,
  		.update_clocks = dcn60_update_clocks,
  		.dump_clk_registers = dcn60_dump_clk_registers,
-@@ -1594,7 +1701,6 @@ struct clk_mgr_internal *dcn60_clk_mgr_construct(
+@@ -1594,8 +1701,7 @@ struct clk_mgr_internal *dcn60_clk_mgr_construct(
  		struct dc_context *ctx,
  		struct dccg *dccg)
  {
 -	struct clk_log_info log_info = {0};
- 	struct dcn60_clk_mgr *clk_mgr60 = kzalloc_obj(struct dcn60_clk_mgr);
+-	struct dcn60_clk_mgr *clk_mgr60 = kzalloc_obj(struct dcn60_clk_mgr);
++	struct dcn60_clk_mgr *clk_mgr60 = kzalloc(sizeof(struct dcn60_clk_mgr), GFP_KERNEL);
  	struct clk_mgr_internal *clk_mgr;
  
-@@ -1629,17 +1735,6 @@ struct clk_mgr_internal *dcn60_clk_mgr_construct(
+ 	if (!clk_mgr60)
+@@ -1629,22 +1735,11 @@ struct clk_mgr_internal *dcn60_clk_mgr_construct(
  		if (clk_mgr->base.dentist_vco_freq_khz == 0)
  			clk_mgr->base.dentist_vco_freq_khz = 4500000;
  
@@ -45273,6 +45463,12 @@ index 7dd88d90eba2..9f5714a83a0d 100644
  	clk_mgr->dfs_bypass_enabled = false;
  
  	clk_mgr->smu_present = false;
+ 
+-	clk_mgr->base.bw_params = kzalloc_obj(*clk_mgr->base.bw_params);
++	clk_mgr->base.bw_params = kzalloc(sizeof(*clk_mgr->base.bw_params), GFP_KERNEL);
+ 	if (!clk_mgr->base.bw_params)
+ 		goto fail;
+ 
 diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn60/dcn60_clk_mgr.h b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn60/dcn60_clk_mgr.h
 index 1c9cd4e95aac..0625f060e8c6 100644
 --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn60/dcn60_clk_mgr.h
@@ -55312,7 +55508,7 @@ index c7701a8b574a..b8ed664e1bab 100644
  	.cursor_lock = dcn10_cursor_lock,
  	.prepare_bandwidth = dcn20_prepare_bandwidth,
 diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c
-index cb163902e12e..8b0a667dc59b 100644
+index d669b47af120..79f40b483caf 100644
 --- a/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c
 +++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c
 @@ -234,25 +234,23 @@ void dcn30_log_color_state(struct dc *dc,
@@ -56253,10 +56449,10 @@ index ba12a97a220f..aad1885cc988 100644
  	.cursor_lock = dcn10_cursor_lock,
  	.prepare_bandwidth = dcn42_prepare_bandwidth,
 diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn50/dcn50_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn50/dcn50_hwseq.c
-index a7f8fd03faea..c13d1ad8d000 100644
+index e549556b9679..cef5d7c8513c 100644
 --- a/drivers/gpu/drm/amd/display/dc/hwss/dcn50/dcn50_hwseq.c
 +++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn50/dcn50_hwseq.c
-@@ -366,8 +366,7 @@ void dcn50_update_dchubp_dpp_sequence(struct dc *dc,
+@@ -367,8 +367,7 @@ void dcn50_update_dchubp_dpp_sequence(struct dc *dc,
  		hwss_add_set_cursor_position(seq_state, dc, pipe_ctx);
  
  		/* Step 15: Cursor SDR white level */
@@ -56267,7 +56463,7 @@ index a7f8fd03faea..c13d1ad8d000 100644
  
  	/* Step 16: Gamut remap and output CSC */
 diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn60/dcn60_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn60/dcn60_hwseq.c
-index 72c2d3ca52f6..0e6526e92544 100644
+index 61ad6efa7a74..17cbf9103c87 100644
 --- a/drivers/gpu/drm/amd/display/dc/hwss/dcn60/dcn60_hwseq.c
 +++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn60/dcn60_hwseq.c
 @@ -291,7 +291,9 @@ enum dc_status dcn60_apply_single_controller_ctx_to_hw(
@@ -56292,7 +56488,7 @@ index 72c2d3ca52f6..0e6526e92544 100644
  		pipe_ctx->stream->link->psr_settings.psr_feature_enabled = false;
  		pipe_ctx->stream->link->replay_settings.replay_feature_enabled = false;
  	}
-@@ -753,6 +757,12 @@ void dcn60_init_hw(struct dc *dc)
+@@ -754,6 +758,12 @@ void dcn60_init_hw(struct dc *dc)
  	if (dc->res_pool->hubbub->funcs->set_request_limit && dc->config.sdpif_request_limit_words_per_umc > 0)
  		dc->res_pool->hubbub->funcs->set_request_limit(dc->res_pool->hubbub, dc->ctx->dc_bios->vram_info.num_chans, dc->config.sdpif_request_limit_words_per_umc);
  
@@ -56305,7 +56501,7 @@ index 72c2d3ca52f6..0e6526e92544 100644
  	// Get DMCUB capabilities
  	if (dc->ctx->dmub_srv) {
  		dc_dmub_srv_query_caps_cmd(dc->ctx->dmub_srv);
-@@ -883,7 +893,6 @@ static void dcn60_build_hubbub_perfmon_sequence(
+@@ -884,7 +894,6 @@ static void dcn60_build_hubbub_perfmon_sequence(
  	uint32_t refclk_mhz = dc->res_pool->ref_clocks.dchub_ref_clock_inKhz / 1000;
  	struct timing_generator *ref_tg = dcn60_get_ref_tg_for_hubbub_probe(context);
  	struct block_sequence_state seq_state = { .steps = block_sequence, .num_steps = num_steps };
@@ -56313,7 +56509,7 @@ index 72c2d3ca52f6..0e6526e92544 100644
  
  	if (!hubbub || !hubbub->funcs || !hubbub->funcs->perfmon.reset)
  		return;
-@@ -898,18 +907,9 @@ static void dcn60_build_hubbub_perfmon_sequence(
+@@ -899,18 +908,9 @@ static void dcn60_build_hubbub_perfmon_sequence(
  	if (probe->target_state != DC_PROBE_MEASURED || !ref_tg)
  		return;
  
@@ -56333,7 +56529,7 @@ index 72c2d3ca52f6..0e6526e92544 100644
  		/* Start at the vblank edge and stop at the next vactive so the counter
  		 * spans exactly one prefetch window, capturing prefetch traffic only. */
  		if (!hubbub->funcs->perfmon.arm_measuring_out_of_order_bandwidth ||
-@@ -919,12 +919,30 @@ static void dcn60_build_hubbub_perfmon_sequence(
+@@ -920,12 +920,30 @@ static void dcn60_build_hubbub_perfmon_sequence(
  
  		hwss_add_hubbub_perfmon_reset(&seq_state, hubbub);
  		hwss_add_hubbub_perfmon_arm_out_of_order_bw(&seq_state, hubbub);
@@ -56365,7 +56561,7 @@ index 72c2d3ca52f6..0e6526e92544 100644
  		break;
  
  	case DC_PROBE_AVG_MEM_BW:
-@@ -941,7 +959,7 @@ static void dcn60_build_hubbub_perfmon_sequence(
+@@ -942,7 +960,7 @@ static void dcn60_build_hubbub_perfmon_sequence(
  		hwss_add_tg_wait_for_state(&seq_state, ref_tg, CRTC_STATE_VACTIVE);
  		hwss_add_tg_wait_for_state(&seq_state, ref_tg, CRTC_STATE_VBLANK);
  		hwss_add_hubbub_perfmon_get_in_order_bw(&seq_state, hubbub,
@@ -56374,7 +56570,7 @@ index 72c2d3ca52f6..0e6526e92544 100644
  		break;
  
  	case DC_PROBE_MEM_LATENCY:
-@@ -1006,6 +1024,7 @@ static void dcn60_update_probe_status(struct dc_probe_status *status)
+@@ -1008,6 +1026,7 @@ static void dcn60_update_probe_status(struct dc_probe_status *status)
  {
  	switch (status->type) {
  	case DC_PROBE_PEAK_MEM_BW:
@@ -56382,7 +56578,7 @@ index 72c2d3ca52f6..0e6526e92544 100644
  	case DC_PROBE_AVG_MEM_BW:
  		/* Zero bandwidth means the counter did not fire — treat as invalid. */
  		status->valid = (status->u.bandwidth_mbps != 0);
-@@ -1029,6 +1048,7 @@ static bool is_probe_measurement_type_for_hubbub(enum dc_probe_type type)
+@@ -1032,6 +1051,7 @@ static bool is_probe_measurement_type_for_hubbub(enum dc_probe_type type)
  {
  	switch (type) {
  	case DC_PROBE_PEAK_MEM_BW:
@@ -57116,7 +57312,7 @@ index 04df75114dd5..811048123401 100644
  }
 -
 diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.c b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-index 22ad6a743038..12fd4fd24a90 100644
+index 22ad6a743038..97277798dd21 100644
 --- a/drivers/gpu/drm/amd/display/dc/link/link_detection.c
 +++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
 @@ -934,7 +934,7 @@ static void verify_link_capability_non_destructive(struct dc_link *link)
@@ -57128,15 +57324,70 @@ index 22ad6a743038..12fd4fd24a90 100644
  
  		if (is_hdmi_frl_in_use(link)) {
  			link->local_sink->sink_signal = SIGNAL_TYPE_HDMI_TYPE_A;
-@@ -995,6 +995,8 @@ static bool should_verify_link_capability_destructively(struct dc_link *link,
+@@ -983,17 +983,33 @@ static bool should_verify_link_capability_destructively(struct dc_link *link,
+ 				link->dc->current_state->res_ctx.pipe_ctx;
+ 
+ 		destrictive = true;
+-		if (is_hdmi_frl_in_use(link)) {
++		/*
++		 * If FRL is already active on this link, skip destructive
++		 * verification. is_hdmi_frl_in_use() only guards the
++		 * multi-connector HPO sharing case (returns false for
++		 * single-HDMI systems), so check the link rate directly.
++		 * Without this, DETECT_REASON_RETRAIN from the FRL status
++		 * polling work takes the destructive path, blanking the display
++		 * and stalling the compositor under dc_lock for the duration
++		 * of a full hdmi_frl_verify_link_cap() re-training sequence.
++		 */
++		if (link->frl_link_settings.frl_link_rate != 0)
+ 			destrictive = false;
+-		} else if (link->local_sink->edid_caps.panel_patch.skip_frl_pre_training) {
+-			for (i = 0; i < MAX_PIPES; i++) {
+-				if (pipes[i].stream != NULL &&
+-					pipes[i].stream->link == link) {
+-					/*If link is already active, skip PHY programming*/
+-					if (link->link_status.link_active) {
+-						destrictive = false;
++		if (destrictive) {
++			if (is_hdmi_frl_in_use(link)) {
++				destrictive = false;
++			} else if (link->local_sink->edid_caps.panel_patch.skip_frl_pre_training) {
++				for (i = 0; i < MAX_PIPES; i++) {
++					if (pipes[i].stream != NULL &&
++						pipes[i].stream->link == link) {
++						/*If link is already active, skip PHY programming*/
++						if (link->link_status.link_active) {
++							destrictive = false;
++						}
  					}
  				}
++			} else if (link->dc->debug.skip_detection_link_training) {
++				destrictive = false;
  			}
-+		} else if (link->dc->debug.skip_detection_link_training) {
-+			destrictive = false;
  		}
  	}
+@@ -1630,6 +1646,21 @@ bool link_detect(struct dc_link *link, enum dc_detect_reason reason)
+ 	bool is_delegated_to_mst_top_mgr = false;
+ 	enum dc_connection_type pre_link_type = link->type;
  
++	/*
++	 * FRL status polling calls detect with DETECT_REASON_RETRAIN to
++	 * re-verify the link after an FRL status change. The sink itself has
++	 * not changed, so re-reading the EDID and SCDC over I2C while holding
++	 * dm->dc_lock is unnecessary and blocks the compositor for hundreds of
++	 * milliseconds on every poll that returns link_update=true. Skip the
++	 * full sink detection and go directly to link capability verification,
++	 * which with an active FRL link takes the non-destructive path (a few
++	 * struct assignments, no I2C traffic).
++	 */
++	if (reason == DETECT_REASON_RETRAIN && link->local_sink) {
++		verify_link_capability(link, reason);
++		return true;
++	}
++
+ 	is_local_sink_detect_success = detect_link_and_local_sink(link, reason);
+ 
+ 	if (is_local_sink_detect_success && link->local_sink) {
 diff --git a/drivers/gpu/drm/amd/display/dc/link/link_factory.c b/drivers/gpu/drm/amd/display/dc/link/link_factory.c
 index 7146f8356233..fa281de1d566 100644
 --- a/drivers/gpu/drm/amd/display/dc/link/link_factory.c
@@ -137236,7 +137487,7 @@ index 000000000000..7f2c296de0b2
 +extern const struct ras_aca_ip_func ras_aca_func_v5_0;
 +#endif
 diff --git a/drivers/gpu/drm/amd/ras/core/cmd.c b/drivers/gpu/drm/amd/ras/core/cmd.c
-index 446b935c1fc9..f4febbf61177 100644
+index 446b935c1fc9..9f874800f38d 100644
 --- a/drivers/gpu/drm/amd/ras/core/cmd.c
 +++ b/drivers/gpu/drm/amd/ras/core/cmd.c
 @@ -43,7 +43,8 @@ static int ras_get_block_ecc_info(struct ras_core_context *ras_core,
@@ -137314,7 +137565,7 @@ index 446b935c1fc9..f4febbf61177 100644
 -
 -	trace = kzalloc_objs(*trace, trace_count);
 -	if (!trace) {
-+	batch_logs = kzalloc_objs(*batch_logs, nr_batch_logs);
++	batch_logs = kcalloc(nr_batch_logs, sizeof(*batch_logs), GFP_KERNEL);
 +	if (!batch_logs) {
  		ret = RAS_CMD__ERROR_GENERIC;
  		goto out;
@@ -137378,6 +137629,15 @@ index 446b935c1fc9..f4febbf61177 100644
 +	kfree(batch_logs);
  	return ret;
  }
+ 
+@@ -316,7 +321,7 @@ static int ras_cmd_get_batch_trace_records(struct ras_core_context *ras_core,
+ 	    (input_data->start_batch_id >= overview.last_batch_id))
+ 		return RAS_CMD__ERROR_INVALID_INPUT_SIZE;
+ 
+-	trace_arry = kzalloc_objs(*trace_arry, trace_count);
++	trace_arry = kcalloc(trace_count, sizeof(*trace_arry), GFP_KERNEL);
+ 	if (!trace_arry)
+ 		return RAS_CMD__ERROR_GENERIC;
  
 @@ -337,8 +342,8 @@ static int ras_cmd_get_batch_trace_records(struct ras_core_context *ras_core,
  				record->seqno = trace_arry[j].seqno;
@@ -148389,19 +148649,6 @@ index b0e0e4118573..97c717d6ba7a 100644
  }
  
  /*
-diff --git a/drivers/gpu/drm/gud/gud_connector.c b/drivers/gpu/drm/gud/gud_connector.c
-index 8141c3a1e30a..8b25d0b45f29 100644
---- a/drivers/gpu/drm/gud/gud_connector.c
-+++ b/drivers/gpu/drm/gud/gud_connector.c
-@@ -396,6 +396,8 @@ static int gud_connector_add_tv_mode(struct gud_device *gdrm, struct drm_connect
- 	}
- 
- 	num_modes = ret / GUD_CONNECTOR_TV_MODE_NAME_LEN;
-+	if (num_modes > GUD_CONNECTOR_TV_MODE_MAX_NUM)
-+		num_modes = GUD_CONNECTOR_TV_MODE_MAX_NUM;
- 	for (i = 0; i < num_modes; i++) {
- 		char *mode = &buf[i * GUD_CONNECTOR_TV_MODE_NAME_LEN];
- 
 diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
 index a0cf0268de48..1659a220f124 100644
 --- a/include/drm/drm_connector.h
