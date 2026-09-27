@@ -342,10 +342,10 @@ index 03b41f803520..1745e500fd80 100644
  	if (!mapping || !mapping->bo_va || !mapping->bo_va->base.bo)
  		return -EINVAL;
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-index 132d054900b5..d80fe17556da 100644
+index aca1a8045afa..b530c3f98f3a 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-@@ -2229,6 +2229,20 @@ int amdgpu_debugfs_init(struct amdgpu_device *adev)
+@@ -2231,6 +2231,20 @@ int amdgpu_debugfs_init(struct amdgpu_device *adev)
  	debugfs_create_file("amdgpu_benchmark", 0200, root, adev,
  			    &amdgpu_benchmark_fops);
  
@@ -10722,7 +10722,7 @@ index b2a3db60d231..9e6d8681b073 100644
  	unsigned long err_addr_cnt;
  };
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
-index e43bda0cab3f..3938f7b8ec4b 100644
+index cc8e7af18834..43ea71091cf0 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
 @@ -241,7 +241,6 @@ int amdgpu_userq_input_va_validate(struct amdgpu_device *adev,
@@ -10795,7 +10795,7 @@ index e43bda0cab3f..3938f7b8ec4b 100644
  		r = -EINVAL;
  		goto err_pm_runtime;
  	}
-@@ -1373,15 +1391,11 @@ void amdgpu_userq_mgr_fini(struct amdgpu_userq_mgr *userq_mgr)
+@@ -1371,15 +1389,11 @@ void amdgpu_userq_mgr_fini(struct amdgpu_userq_mgr *userq_mgr)
  
  int amdgpu_userq_suspend(struct amdgpu_device *adev)
  {
@@ -10811,7 +10811,7 @@ index e43bda0cab3f..3938f7b8ec4b 100644
  	xa_for_each(&adev->userq_doorbell_xa, queue_id, queue) {
  		uqm = queue->userq_mgr;
  		cancel_delayed_work_sync(&uqm->resume_work);
-@@ -1398,15 +1412,11 @@ int amdgpu_userq_suspend(struct amdgpu_device *adev)
+@@ -1396,15 +1410,11 @@ int amdgpu_userq_suspend(struct amdgpu_device *adev)
  
  int amdgpu_userq_resume(struct amdgpu_device *adev)
  {
@@ -11071,7 +11071,7 @@ index c835504fdf2b..d6b51b3f216b 100644
  	.set_powergating_state = amdgpu_vkms_set_powergating_state,
  };
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index bb04101b0fb5..36f6dcd063fe 100644
+index 4a63b472f68e..ffbf237881a7 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
 @@ -37,6 +37,7 @@
@@ -11101,7 +11101,7 @@ index bb04101b0fb5..36f6dcd063fe 100644
  	return amdgpu_vm_it_iter_first(&vm->va, addr, addr);
  }
  
-@@ -2748,6 +2752,46 @@ int amdgpu_vm_make_compute(struct amdgpu_device *adev, struct amdgpu_vm *vm)
+@@ -2749,6 +2753,46 @@ int amdgpu_vm_make_compute(struct amdgpu_device *adev, struct amdgpu_vm *vm)
  	return r;
  }
  
@@ -11148,7 +11148,7 @@ index bb04101b0fb5..36f6dcd063fe 100644
  static int amdgpu_vm_stats_is_zero(struct amdgpu_vm *vm)
  {
  	for (int i = 0; i < __AMDGPU_PL_NUM; ++i) {
-@@ -3052,7 +3096,8 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, u32 pasid,
+@@ -3053,7 +3097,8 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, u32 pasid,
  	}
  
  	addr /= AMDGPU_GPU_PAGE_SIZE;
@@ -11158,7 +11158,7 @@ index bb04101b0fb5..36f6dcd063fe 100644
  		AMDGPU_PTE_SYSTEM;
  
  	if (is_compute_context) {
-@@ -3065,8 +3110,7 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, u32 pasid,
+@@ -3066,8 +3111,7 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, u32 pasid,
  		/* Redirect the access to the dummy page */
  		value = adev->dummy_page_addr;
  		flags |= AMDGPU_PTE_EXECUTABLE | AMDGPU_PTE_READABLE |
@@ -20582,10 +20582,10 @@ index c2ddf3cb368f..60a5636c0073 100644
  	.set_clockgating_state = vcn_v4_0_set_clockgating_state,
  	.set_powergating_state = vcn_set_powergating_state,
 diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c
-index 179b892fb410..3d28289bc4f1 100644
+index 62e2e04314dc..9b850e40adaa 100644
 --- a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c
 +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c
-@@ -1840,26 +1840,6 @@ static void vcn_v4_0_3_set_unified_ring_funcs(struct amdgpu_device *adev)
+@@ -1841,26 +1841,6 @@ static void vcn_v4_0_3_set_unified_ring_funcs(struct amdgpu_device *adev)
  	}
  }
  
@@ -20612,7 +20612,7 @@ index 179b892fb410..3d28289bc4f1 100644
  /**
   * vcn_v4_0_3_wait_for_idle - wait for VCN block idle
   *
-@@ -2049,7 +2029,6 @@ static const struct amd_ip_funcs vcn_v4_0_3_ip_funcs = {
+@@ -2050,7 +2030,6 @@ static const struct amd_ip_funcs vcn_v4_0_3_ip_funcs = {
  	.hw_fini = vcn_v4_0_3_hw_fini,
  	.suspend = vcn_v4_0_3_suspend,
  	.resume = vcn_v4_0_3_resume,
@@ -20703,10 +20703,10 @@ index 886e2c2074a9..08fca20b2c99 100644
  	.set_clockgating_state = vcn_v5_0_0_set_clockgating_state,
  	.set_powergating_state = vcn_set_powergating_state,
 diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_1.c b/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_1.c
-index 1a07c3bf4425..b3b83ad20103 100644
+index 011afc0fdc87..b8166acde7ad 100644
 --- a/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_1.c
 +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_1.c
-@@ -1483,24 +1483,6 @@ static void vcn_v5_0_1_set_unified_ring_funcs(struct amdgpu_device *adev)
+@@ -1484,24 +1484,6 @@ static void vcn_v5_0_1_set_unified_ring_funcs(struct amdgpu_device *adev)
  	}
  }
  
@@ -20731,7 +20731,7 @@ index 1a07c3bf4425..b3b83ad20103 100644
  /**
   * vcn_v5_0_1_wait_for_idle - wait for VCN block idle
   *
-@@ -1672,7 +1654,6 @@ static const struct amd_ip_funcs vcn_v5_0_1_ip_funcs = {
+@@ -1673,7 +1655,6 @@ static const struct amd_ip_funcs vcn_v5_0_1_ip_funcs = {
  	.hw_fini = vcn_v5_0_1_hw_fini,
  	.suspend = vcn_v5_0_1_suspend,
  	.resume = vcn_v5_0_1_resume,
@@ -23365,7 +23365,7 @@ index 1727d25646cc..617bc1932524 100644
  	bool "Enable kgdb break in DC"
  	depends on DRM_AMD_DC
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 36d2f86f000a..69b91a2b1969 100644
+index 91fdf3de7202..6e1451c93d1d 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 @@ -141,12 +141,14 @@ static int amdgpu_dm_initialize_drm_device(struct amdgpu_device *adev);
@@ -24171,7 +24171,7 @@ index 36d2f86f000a..69b91a2b1969 100644
  {
  	struct dm_atomic_state *dm_state = NULL;
  	struct dm_crtc_state *dm_old_crtc_state, *dm_new_crtc_state;
-@@ -5635,11 +5712,12 @@ static int dm_update_crtc_state(struct amdgpu_display_manager *dm,
+@@ -5637,11 +5714,12 @@ static int dm_update_crtc_state(struct amdgpu_display_manager *dm,
  		dc_stream_release(new_stream);
  	return ret;
  }
@@ -24188,7 +24188,7 @@ index 36d2f86f000a..69b91a2b1969 100644
  {
  	struct drm_plane *other;
  	struct drm_plane_state *old_other_state, *new_other_state;
-@@ -5799,15 +5877,17 @@ static bool should_reset_plane(struct drm_atomic_commit *state,
+@@ -5801,15 +5879,17 @@ static bool should_reset_plane(struct drm_atomic_commit *state,
  
  	return false;
  }
@@ -24214,7 +24214,7 @@ index 36d2f86f000a..69b91a2b1969 100644
  {
  
  	struct dm_atomic_state *dm_state = NULL;
-@@ -5971,6 +6051,7 @@ static int dm_update_plane_state(struct dc *dc,
+@@ -5973,6 +6053,7 @@ static int dm_update_plane_state(struct dc *dc,
  
  	return ret;
  }
@@ -24222,7 +24222,7 @@ index 36d2f86f000a..69b91a2b1969 100644
  
  /*
   * The normalized_zpos value cannot be used by this iterator directly. It's only
-@@ -6017,7 +6098,8 @@ struct __drm_planes_state *amdgpu_dm_get_next_zpos(
+@@ -6019,7 +6100,8 @@ struct __drm_planes_state *amdgpu_dm_get_next_zpos(
  	return &state->planes[highest_i];
  }
  
@@ -24232,7 +24232,7 @@ index 36d2f86f000a..69b91a2b1969 100644
  {
  	struct drm_connector *connector;
  	struct drm_connector_state *conn_state, *old_conn_state;
-@@ -6046,10 +6128,11 @@ static int add_affected_mst_dsc_crtcs(struct drm_atomic_commit *state, struct dr
+@@ -6048,10 +6130,11 @@ static int add_affected_mst_dsc_crtcs(struct drm_atomic_commit *state, struct dr
  
  	return drm_dp_mst_add_affected_dsc_crtcs(state, &aconnector->mst_root->mst_mgr);
  }
@@ -24247,7 +24247,7 @@ index 36d2f86f000a..69b91a2b1969 100644
  {
  	struct drm_plane *plane;
  	struct drm_plane_state *new_plane_state, *old_plane_state;
-@@ -6068,6 +6151,7 @@ static bool amdgpu_dm_crtc_mem_type_changed(struct drm_device *dev,
+@@ -6070,6 +6153,7 @@ static bool amdgpu_dm_crtc_mem_type_changed(struct drm_device *dev,
  
  	return false;
  }
@@ -24255,7 +24255,7 @@ index 36d2f86f000a..69b91a2b1969 100644
  
  /**
   * amdgpu_dm_atomic_check() - Atomic check implementation for AMDgpu DM.
-@@ -6094,8 +6178,8 @@ static bool amdgpu_dm_crtc_mem_type_changed(struct drm_device *dev,
+@@ -6096,8 +6180,8 @@ static bool amdgpu_dm_crtc_mem_type_changed(struct drm_device *dev,
   *
   * Return: -Error code if validation failed.
   */
@@ -24266,7 +24266,7 @@ index 36d2f86f000a..69b91a2b1969 100644
  {
  	struct amdgpu_device *adev = drm_to_adev(dev);
  	struct dm_atomic_state *dm_state = NULL;
-@@ -6606,6 +6690,7 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
+@@ -6608,6 +6692,7 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
  
  	return ret;
  }
@@ -24274,7 +24274,7 @@ index 36d2f86f000a..69b91a2b1969 100644
  
  void amdgpu_dm_trigger_timing_sync(struct drm_device *dev)
  {
-@@ -6625,6 +6710,7 @@ void amdgpu_dm_trigger_timing_sync(struct drm_device *dev)
+@@ -6627,6 +6712,7 @@ void amdgpu_dm_trigger_timing_sync(struct drm_device *dev)
  	}
  	mutex_unlock(&adev->dm.dc_lock);
  }
@@ -24282,7 +24282,7 @@ index 36d2f86f000a..69b91a2b1969 100644
  
  void dm_write_reg_func(const struct dc_context *ctx, uint32_t address,
  		       u32 value, const char *func_name)
-@@ -6669,3 +6755,4 @@ void dm_acpi_process_phy_transition_interlock(
+@@ -6671,3 +6757,4 @@ void dm_acpi_process_phy_transition_interlock(
  {
  	// Not yet implemented
  }
@@ -47976,7 +47976,7 @@ index b8fc27a5361e..71eedb3301e4 100644
  #define table_hash(mode, bpc, max_min) ((mode << 16) | (bpc << 8) | max_min)
  
 diff --git a/drivers/gpu/drm/amd/display/dc/dml2_0/Makefile b/drivers/gpu/drm/amd/display/dc/dml2_0/Makefile
-index 5388bf094fbc..7ebe799e3b24 100644
+index 39ee2d1999dd..e8bd061be05c 100644
 --- a/drivers/gpu/drm/amd/display/dc/dml2_0/Makefile
 +++ b/drivers/gpu/drm/amd/display/dc/dml2_0/Makefile
 @@ -62,7 +62,8 @@ subdir-ccflags-y += -I$(FULL_AMD_DISPLAY_PATH)/dc/dml2_0/dml21/src/dml2_cga/
