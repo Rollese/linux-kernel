@@ -39,7 +39,7 @@ source=(
   0001-hdmi_frl.patch
   0002-bore.patch
   0003-clang-polly.patch
-  # 0004-mm_lazy_rss_stat.patch
+  0004-mm_lazy_rss_stat.patch
   0005-cflags-O3.patch
   0006-disable-split-lock.patch
   0007-tcp-bbr3.patch
@@ -59,7 +59,7 @@ source=(
 )
 b2sums=(
   'SKIP'
-  # 'SKIP'
+  'SKIP'
   'SKIP'
   'SKIP'
   'SKIP'
