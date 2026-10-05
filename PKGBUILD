@@ -50,9 +50,9 @@ _url="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git"
 source=(
   config
   0001-hdmi_frl.patch
-  # 0002-bore.patch
+  0002-bore.patch
   0003-clang-polly.patch
-  # 0004-mm_lazy_rss_stat.patch
+  0004-mm_lazy_rss_stat.patch
   0005-cflags-O3.patch
   0006-disable-split-lock.patch
   0007-tcp-bbr3.patch
@@ -74,8 +74,8 @@ source=(
 )
 b2sums=(
   'SKIP'
-  # 'SKIP'
-  # 'SKIP'
+  'SKIP'
+  'SKIP'
   'SKIP'
   'SKIP'
   'SKIP'
@@ -98,7 +98,7 @@ b2sums=(
   'SKIP'
 )
 
-export LINUX_COMMIT=fd73f4a6659897191fa0d40695fe370925dd3780
+export LINUX_COMMIT=a90ee4305c4a5df72c11b31dacfdc76e00fcf78a
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
