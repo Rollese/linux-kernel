@@ -69,6 +69,13 @@ Those must go, otherwise `git apply` fails with "already exists".
 `git reset --hard` then reverts the patched tracked sources. Verified: artifacts
 survive the reset and all 21 patches re-apply cleanly on a second pass.
 
+Compiler upgrades: kbuild notices a new clang and rebuilds the kernel by
+itself, but the host tools under `tools/` (objtool, resolve_btfids) keep
+absolute header paths like `/usr/lib/clang/22/include/stddef.h` and die with
+"No rule to make target" once the old clang is gone. `prepare()` stores
+`clang --version` in `src/.clang-version` and wipes the ignored build output
+under `tools/` whenever it changes (they rebuild in seconds).
+
 ## 3. ccache
 
 Enabled outside the repo so it survives `git pull`, in

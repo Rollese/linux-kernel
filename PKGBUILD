@@ -69,11 +69,9 @@ source=(
   0021-sched-wait-lifo-accept.patch
   0022-tcp-write-buffer.patch
   0023-amdgpu-max-power-limit-115pct.patch
-  0024-amdgpu-dm-prefer-rgb-over-ycbcr444.patch
   0025-amdgpu-dm-hdmi-freesync-on-desktop.patch
 )
 b2sums=(
-  'SKIP'
   'SKIP'
   'SKIP'
   'SKIP'
@@ -133,6 +131,17 @@ prepare() {
       done < <(awk '/^diff --git/ { f = substr($3, 3) }
                     /^new file mode/ { print f }
                     /^(rename|copy) to / { print $3 }' "${patches[@]}")
+    fi
+    # Kbuild rebuilds the kernel itself when the compiler changes, but the
+    # host tools under tools/ (objtool, resolve_btfids) record absolute
+    # compiler header paths such as /usr/lib/clang/22/include/stddef.h and
+    # fail with "No rule to make target" once a clang upgrade removes them.
+    local cc_stamp="$srcdir/.clang-version" cc_now
+    cc_now="$(clang --version | head -n1)"
+    if [[ "$(cat "$cc_stamp" 2>/dev/null)" != "$cc_now" ]]; then
+      echo "Compiler changed ($cc_now): cleaning tools/ build output..."
+      git clean -qfdX tools
+      echo "$cc_now" > "$cc_stamp"
     fi
   else
     git clean -fdx
