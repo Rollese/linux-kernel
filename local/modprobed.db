@@ -7,9 +7,12 @@ amd_atl
 amdgpu
 amdxcp
 ccp
+cdc_acm
 cec
+ch341
 cifs
 cifs_md4
+cp210x
 crypto_user
 dm_mod
 dns_resolver
