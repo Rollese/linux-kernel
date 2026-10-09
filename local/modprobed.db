@@ -3,6 +3,8 @@
 aead
 aesni_intel
 ahci
+algif_hash
+algif_skcipher
 amd_atl
 amdgpu
 amdxcp
@@ -14,6 +16,7 @@ cifs
 cifs_md4
 cp210x
 crypto_user
+dm_crypt
 dm_mod
 dns_resolver
 drm_buddy
@@ -23,6 +26,7 @@ drm_panel_backlight_quirks
 drm_suballoc_helper
 drm_ttm_helper
 ee1004
+exfat
 fat
 gf128mul
 gpio_amdpt
@@ -33,6 +37,8 @@ hid_logitech
 hid_logitech_dj
 hid_logitech_hidpp
 hid_microsoft
+hid_playstation
+hid_sony
 hub
 i2c_algo_bit
 i2c_dev
@@ -46,6 +52,7 @@ ip6t_REJECT
 ip6t_rt
 ipt_REJECT
 irqbypass
+isofs
 iw_cm
 joydev
 k10temp
@@ -53,12 +60,14 @@ kvm
 kvm_amd
 libarc4
 libphy
+loop
 lz4hc_compress
 mac_hid
 mc
 mdio_bus
 mdio_devres
 mousedev
+nct6683
 netfs
 nf_conntrack
 nf_defrag_ipv4
@@ -66,6 +75,8 @@ nf_defrag_ipv6
 nf_log_syslog
 nf_reject_ipv4
 nf_reject_ipv6
+nfs
+nfsv4
 nf_tables
 nft_compat
 nft_limit
@@ -112,6 +123,7 @@ snd_usbmidi_lib
 soundcore
 ttm
 uas
+udf
 usb
 usbhid
 usb_storage
